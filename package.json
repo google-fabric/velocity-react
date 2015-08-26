@@ -1,0 +1,38 @@
+{
+  "name": "velocity-react",
+  "version": "0.0.1",
+  "description": "React components to wrap Velocity animations",
+  "main": "lib",
+  "scripts": {
+    "demo": "./node_modules/.bin/webpack-dev-server --progress --colors --content-base demo --hot --inline --config demo/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crashlytics/velocity-react.git"
+  },
+  "keywords": [
+    "velocity",
+    "react",
+    "animation"
+  ],
+  "author": "Twitter, Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crashlytics/velocity-react/issues"
+  },
+  "homepage": "https://github.com/crashlytics/velocity-react#readme",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "velocity-animate": "phopkins/velocity#feature/finish-all-queued"
+  },
+  "peerDependencies": {
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel-loader": "^5.3.2",
+    "react": "^0.13.3",
+    "react-hot-loader": "^1.2.9",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
+  }
+}
