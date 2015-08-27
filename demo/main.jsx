@@ -1,46 +1,55 @@
+require('./css/flexbox.css');
+
 var React = require('react');
 var VelocityComponent = require('../lib/velocity-component');
+var VelocityTransitionGroup = require('../lib/velocity-transition-group');
+
+var FlapBox = require('./examples/flap-box');
+var ScrollingGroup = require('./examples/scrolling-group');
+var ToggleBox = require('./examples/toggle-box');
+var TriggerBox = require('./examples/trigger-box');
 
 require('velocity-animate/velocity.ui');
 
-var MainComponent = React.createClass({
-  getInitialState: function () {
-    return {
-      fadeInOut: 'transition.bounceIn',
-    };
-  },
-
-  whenFadeInOutClicked: function () {
-    this.setState({
-      fadeInOut: (this.state.fadeInOut === 'transition.bounceIn') ? 'transition.bounceOut' : 'transition.bounceIn',
-    });
-  },
-
+var Demo = React.createClass({
   render: function () {
-    return React.DOM.div({}, this.renderFadeInOut());
-  },
-
-  renderFadeInOut: function () {
-    var holderStyle = {
-      width: 130,
-      lineHeight: 2,
-      textAlign: 'center',
+    var boxStyle = {
+      backgroundColor: '#efefef',
+      margin: 10,
+      padding: '0 0 10px 0',
+      width: 200,
+      height: 300,
     };
 
-    var boxStyle = {
-      height: 130,
-      backgroundColor: '#6e8fcf',
+    var headingStyle = {
+      margin: '10px 0',
+      padding: '0 0 10px 0',
+      width: '100%',
+      textAlign: 'center',
+      fontWeight: 200,
+      fontSize: 14,
+      borderBottom: '1px solid #e5e5e5',
     };
 
     return (
-      <div style={holderStyle}>
-        <a href="javascript:void(0)" onClick={this.whenFadeInOutClicked}>Click to Toggle</a>
-        <VelocityComponent animation={this.state.fadeInOut}>
-          <div style={boxStyle}></div>
-        </VelocityComponent>
+      <div className="flex-box flex-column align-items-center" style={boxStyle}>
+        <h3 style={headingStyle}>{this.props.title}</h3>
+        {this.props.children}
       </div>
     );
+  },
+});
 
+var MainComponent = React.createClass({
+  render: function () {
+    return (
+      <div className="flex-box">
+        <Demo title="Property Change"><ToggleBox/></Demo>
+        <Demo title="On Demand"><TriggerBox/></Demo>
+        <Demo title="Custom Animation"><FlapBox/></Demo>
+        <Demo title="Custom Transition Group"><ScrollingGroup/></Demo>
+      </div>
+    );
   },
 });
 
