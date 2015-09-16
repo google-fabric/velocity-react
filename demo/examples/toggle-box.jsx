@@ -89,7 +89,7 @@ var ToggleBox = React.createClass({
         <div>
           <select rvalue={this.state.effect} onChange={this.whenSelectChanged}>{this.renderEffects()}</select>
         </div>
-        <Box className="flex-1 flex-box flex-column align-items-center" style={{backgroundColor:'#f5f5f5'}} onClick={this.whenToggleClicked}>
+        <Box className="flex-1 flex-box flex-column align-items-center" style={{backgroundColor:'#f5f5f5'}} onClick={this.whenToggleClicked} instruction="Click!">
           {/*
             Use of key here keeps the component (and its set styles) from persisting across effects.
             Avoids flashing when switching effects.

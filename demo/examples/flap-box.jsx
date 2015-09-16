@@ -131,7 +131,7 @@ var FlapBox = React.createClass({
 
     return (
       <VelocityComponent animation={flipAnimation}>
-        <Box style={boxStyle}>
+        <Box style={boxStyle} instruction="Hover!">
           <VelocityComponent animation={contentsAnimation}>
             <EmojiSpan size={72}>🙈</EmojiSpan>
           </VelocityComponent>
