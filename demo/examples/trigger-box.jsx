@@ -76,12 +76,13 @@ var TriggerBox = React.createClass({
             Avoids flashing when switching effects.
           */}
           <VelocityComponent ref="velocity" key={this.state.effect} animation={animation}>
-            <Box onClick={this.whenClicked}>
+            <Box onClick={this.whenClicked} instruction="Click!">
               <EmojiSpan size={72}>{PALS[this.state.palIndex]}</EmojiSpan>
             </Box>
           </VelocityComponent>
         </div>
         <div style={{ fontSize: 12 }}>
+          <h4 style={{ marginBottom: 4, fontWeight: 'bold', textAlign: 'center'}}>Interruption Behavior</h4>
           <label>
             <input type="radio" name="chain" value="stop" checked={this.state.chain === 'stop'} onChange={this.whenOptionChanged}/> Stop
           </label>

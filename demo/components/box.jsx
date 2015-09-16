@@ -16,12 +16,14 @@ var Box = React.createClass({
   propTypes: {
     style: React.PropTypes.object,
     underneath: React.PropTypes.bool,
+    instruction: React.PropTypes.string,
   },
 
   getDefaultProps: function () {
     return {
       style: {},
-      underneath: false,  
+      underneath: false,
+      instruction: '',
     };
   },
 
@@ -34,7 +36,20 @@ var Box = React.createClass({
       fontSize: 80,
       fontWeight: 'bold',
       cursor: 'pointer',
+      position: this.props.underneath ? '' : 'relative',
     }, this.props.style);
+
+    var instructionStyle = {
+      position: 'absolute',
+      bottom: 3,
+      left: 0,
+      right: 0,
+      fontSize: '11px',
+      fontWeight: 'normal',
+      textTransform: 'uppercase',
+      color: '#eee',
+      opacity: 0.4,
+    };
 
     // outer div below absorbs Velocity's display: block behavior, keeping it from overwriting
     // the display: flex
@@ -42,6 +57,7 @@ var Box = React.createClass({
       <div style={{margin: 10}}>
         <div {...this.props} className="flex-box flex-column justify-content-center align-items-center user-select-none" style={style}>
           {this.props.children}
+          {this.props.instruction ? <div style={instructionStyle}>{this.props.instruction}</div> : null}
         </div>
       </div>
     );
