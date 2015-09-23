@@ -19,8 +19,10 @@ var EmojiSpan = React.createClass({
   },
 
   render: function () {
+    let {children, size, ...attrs} = this.props;
+
     return (
-      <span dangerouslySetInnerHTML={{__html: twemoji.parse(s.escapeHTML(this.props.children), {size: this.props.size})}} />
+      <span {...attrs} dangerouslySetInnerHTML={{__html: twemoji.parse(s.escapeHTML(children), {size: size})}} />
     );
   },
 });

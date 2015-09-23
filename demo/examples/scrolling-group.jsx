@@ -136,7 +136,7 @@ var ScrollingGroup = React.createClass({
           {rows}
         </VelocityTransitionGroup>
 
-        <div style={{fontSize: 12}}>
+        <form style={{fontSize: 12}}>
           <label>
             <input type="radio" name="speed" value={500} checked={this.state.duration === 500} onChange={this.whenOptionClicked}/> Fast
           </label>
@@ -144,7 +144,7 @@ var ScrollingGroup = React.createClass({
           <label>
             <input type="radio" name="speed" value={2000} checked={this.state.duration === 2000} onChange={this.whenOptionClicked}/> Slow
           </label>
-        </div>
+        </form>
       </div>
     );
   },
