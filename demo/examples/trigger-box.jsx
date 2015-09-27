@@ -1,5 +1,5 @@
 var React = require('react');
-var VelocityComponent = require('../../lib/velocity-component');
+var VelocityComponent = require('../../velocity-component');
 var s = require('underscore.string');
 
 var Box = require('../components/box');

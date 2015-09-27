@@ -1,8 +1,8 @@
 /*
 Copyright (c) 2015 Twitter, Inc. and other contributors
 
-Component to add Velocity animations around React transitions. Delegate's to the React
-TransitionGroup addon.
+Component to add Velocity animations around React transitions. Delegates to the React TransitionGroup
+addon.
 
 Properties
   enter: Animation to run on a child component being added

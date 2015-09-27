@@ -1,5 +1,5 @@
 var React = require('react');
-var VelocityComponent = require('../../lib/velocity-component');
+var VelocityComponent = require('../../velocity-component');
 var tweenState = require('react-tween-state');
 var s = require('underscore.string');
 

@@ -1,8 +1,9 @@
+// Copyright (c) 2015 Twitter, Inc. and other contributors
+
 var _ = {
   isObject: require('lodash/lang/isObject'),
 };
 var Velocity = require('velocity-animate');
-require('velocity-animate/velocity.ui');
 
 var effectCounter = 0;
 
@@ -13,6 +14,11 @@ var effectCounter = 0;
 // Unlike what you get from passing a style hash to VelocityComponent's "animation" property,
 // Velocity "UI pack effects" can have chained animation calls and specify a "defaultDuration", and
 // also can take advantage of "stagger" and "reverse" options on the VelocityComponent.
+//
+// You will need to manually register the UI Pack with the global Velocity in your application with:
+//
+//   require('velocity');
+//   require('velocity-animate/velocity.ui');
 //
 // See: http://julian.com/research/velocity/#uiPack
 //
@@ -52,6 +58,10 @@ function registerEffect(suffix, animation) {
   if (_.isObject(suffix)) {
     animation = suffix;
     suffix = '';    
+  }
+
+  if (Velocity.RegisterEffect === undefined) {
+    throw "Velocity.RegisterEffect not found. You need to require('velocity-animate/velocity.ui') at a top level for UI Pack.";
   }
 
   var key = 'VelocityHelper.animation.' + (effectCounter++) + suffix;

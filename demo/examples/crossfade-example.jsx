@@ -1,9 +1,8 @@
 var _ = require('lodash');
 
 var React = require('react');
-var VelocityComponent = require('../../lib/velocity-component');
-var VelocityTransitionGroup = require('../../lib/velocity-transition-group');
-var VelocityHelpers = require('../../lib/velocity-helpers');
+var VelocityComponent = require('../../velocity-component');
+var VelocityTransitionGroup = require('../../velocity-transition-group');
 
 var Box = require('../components/box');
 var EmojiSpan = require('../components/emoji-span');
@@ -71,15 +70,16 @@ var CrossfadeExample = React.createClass({
 
   render: function () {
     var groupStyle = {
-      width: 198,
+      borderBottom: '1px solid #3f83b7',
+      padding: '0 1px',
     };
 
     var boxStyle = {
       margin: '-10px 0 0 0',
+      width: '100%',
     };
 
     var toggleStyle = {
-      width: 200,
       backgroundColor: '#3f83b7',
       color: 'white',
       padding: 8,
@@ -94,21 +94,23 @@ var CrossfadeExample = React.createClass({
     };
 
     return (
-      <div className="flex-box flex-1 flex-column align-items-center" style={boxStyle}>
-        <div className="flex-box justify-content-space-between" style={toggleStyle} onClick={this.whenToggleClicked}>
+      <div className="flex-box flex-1 flex-column align-items-stretch" style={boxStyle}>
+        <div className="flex-box justify-content-space-between user-select-none" style={toggleStyle} onClick={this.whenToggleClicked}>
           Points of Interest
           <VelocityComponent animation={{rotateZ: this.state.expanded ? 0 : -180}} duration={this.state.duration}>
             <EmojiSpan style={arrowStyle}>👇</EmojiSpan>
           </VelocityComponent>
         </div>
 
-        <VelocityTransitionGroup component="div" className="flex-1" style={groupStyle}
-          enter={{animation: 'slideDown', duration: this.state.duration}}
-          leave={{animation: 'slideUp', duration: this.state.duration}}>
-          {this.state.expanded ? this.renderLocations() : null}
-        </VelocityTransitionGroup>
+        <div className="flex-1">
+          <VelocityTransitionGroup component="div" style={groupStyle}
+            enter={{animation: 'slideDown', duration: this.state.duration, style: {height: ''}}}
+            leave={{animation: 'slideUp', duration: this.state.duration}}>
+            {this.state.expanded ? this.renderLocations() : null}
+          </VelocityTransitionGroup>
+        </div>
 
-        <form style={{fontSize: 12}}>
+        <form style={{fontSize: 12, textAlign: 'center'}}>
           <label>
             <input type="radio" name="speed" value={500} checked={this.state.duration === 500} onChange={this.whenOptionClicked}/> Fast
           </label>
@@ -125,12 +127,13 @@ var CrossfadeExample = React.createClass({
     var boxStyle = {
       backgroundColor: '#fefefe',
       padding: '5px 10px',
+      width: 198,
     };
 
     var locations = this.state.items != null ? this.state.items : Array.apply(null, Array(LOCATION_COUNT));
 
     return (
-      <LoadingCrossfadeComponent duration={this.state.duration * .75}>
+      <LoadingCrossfadeComponent duration={this.state.duration * .75} key="content">
         <div key={this.state.items != null ? 'locations' : 'loading'} style={boxStyle}>{locations.map(this.renderLocation)}</div>
       </LoadingCrossfadeComponent>
     );
@@ -156,8 +159,8 @@ var CrossfadeExample = React.createClass({
     };
 
     return (
-      <div className="flex-box align-items-center" style={rowStyle}>
-        <EmojiSpan key={i}
+      <div className="flex-box align-items-center" style={rowStyle} key={i}>
+        <EmojiSpan
           className={location.city == '' ? 'loading-placeholder-dark loading-placeholder-full' : ''}
           style={emojiStyle}>{location.building}</EmojiSpan>
         <div style={cityStyle} className={'flex-1 ' + (location.city == '' ? 'loading-placeholder-dark loading-placeholder-full' : '')}>

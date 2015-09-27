@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var React = require('react');
-var VelocityComponent = require('../../lib/velocity-component');
-var VelocityHelpers = require('../../lib/velocity-helpers');
+var VelocityComponent = require('../../velocity-component');
+var velocityHelpers = require('../../velocity-helpers');
 
 var Box = require('../components/box');
 var EmojiSpan = require('../components/emoji-span');
@@ -16,7 +16,7 @@ on a state value.
 var FlipAnimations = {
   // Brings the box from flipped up to down. Also the default state that the box starts in. When
   // this animates, includes a little swing at the end so it feels more like a flap.
-  down: VelocityHelpers.registerEffect({
+  down: velocityHelpers.registerEffect({
     // longer due to spring timing
     defaultDuration: 1100,
     calls: [
@@ -36,7 +36,7 @@ var FlipAnimations = {
   }),
 
   // Flips the box up nearly 180°.
-  up: VelocityHelpers.registerEffect({
+  up: velocityHelpers.registerEffect({
     defaultDuration: 200,
     calls: [
       [{
@@ -57,14 +57,14 @@ var FlipAnimations = {
 // immediately with no tweening, since that doesn't make sense for the effect. We're using
 // Velocity here only to co-ordinate the timing of the change.
 var BlurAnimations = {
-  blur: VelocityHelpers.registerEffect({
+  blur: velocityHelpers.registerEffect({
     defaultDuration: 200,
     calls: [
       [{ blur: [3, 3], opacity: [.4, .4] }, 1, { delay: 50 }],
     ],
   }),
 
-  unblur: VelocityHelpers.registerEffect({
+  unblur: velocityHelpers.registerEffect({
     defaultDuration: 200,
     calls: [
       [{ blur: [0, 0], opacity: [1, 1] }, 1, { delay: 150 }],
