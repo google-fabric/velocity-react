@@ -1,6 +1,6 @@
 var React = require('react');
-var VelocityTransitionGroup = require('../../lib/velocity-transition-group');
-var VelocityHelpers = require('../../lib/velocity-helpers');
+var VelocityTransitionGroup = require('../../velocity-transition-group');
+var velocityHelpers = require('../../velocity-helpers');
 
 var Box = require('../components/box');
 var EmojiSpan = require('../components/emoji-span');
@@ -11,7 +11,7 @@ var FOODS = ['🍅', '🍆', '🍇', '🍈', '🍉', '🍊', '🍌', '🍍', '�
 
 var Animations = {
   // Register these with UI Pack so that we can use stagger later.
-  In: VelocityHelpers.registerEffect({
+  In: velocityHelpers.registerEffect({
     calls: [
       [{
         transformPerspective: [ 800, 800 ],
@@ -27,7 +27,7 @@ var Animations = {
     ],
   }),
 
-  Out: VelocityHelpers.registerEffect({
+  Out: velocityHelpers.registerEffect({
     calls: [
       [{
         transformPerspective: [ 800, 800 ],

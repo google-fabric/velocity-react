@@ -84,7 +84,9 @@ var VelocityComponent = React.createClass({
   // It's ok to call this externally! By default the animation will be queued up. Pass stop: true in
   // to stop the current animation before running. Pass finish: true to finish the current animation
   // before running.
-  runAnimation: function (config = {}) {
+  runAnimation: function (config) {
+    config = config || {};
+
     this._shouldRunAnimation = false;
 
     if (!this.isMounted() || this.props.animation == null) {

@@ -1,16 +1,15 @@
 require('./css/flexbox.css');
 
 var React = require('react');
-var VelocityComponent = require('../lib/velocity-component');
-var VelocityTransitionGroup = require('../lib/velocity-transition-group');
+
+require('velocity-animate');
+require('velocity-animate/velocity.ui');
 
 var CrossfadeExample = require('./examples/crossfade-example');
 var FlapBox = require('./examples/flap-box');
 var ScrollingGroup = require('./examples/scrolling-group');
 var ToggleBox = require('./examples/toggle-box');
 var TriggerBox = require('./examples/trigger-box');
-
-require('velocity-animate/velocity.ui');
 
 var Demo = React.createClass({
   render: function () {
