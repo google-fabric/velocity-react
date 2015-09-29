@@ -3,6 +3,9 @@
 [React](http://facebook.github.io/react/) components for interacting with the
 [Velocity](http://julian.com/research/velocity/) DOM animation library.
 
+Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
+details about why and how we built this.
+
 ## Running the demo
 
 ```
@@ -15,12 +18,18 @@ $ npm run demo
 Visit <http://localhost:8080/webpack-dev-server/> in your browser. Hot reloading is enabled, if you
 want to tweak the code in main.jsx.
 
-## Requirements
+## Installation
+
+The velocity-react library is provided as an [NPM package](https://www.npmjs.com/package/velocity-react):
+
+```
+$ npm install --save velocity-react
+```
 
 The `VelocityComponent` and `VelocityTransitionGroup` components, as well as the `velocityHelpers`
-utilities, are provided as ES5-compatible JavaScript files with [CommonJS](http://www.commonjs.org/)
+utilities, are distributed as ES5-compatible JavaScript files with [CommonJS](http://www.commonjs.org/)
 `require` statements. You will need a dependency tool such as [Browserify](http://browserify.org/),
-[RequireJS](http://requirejs.org/), or [webpack](https://webpack.github.io/) to use them.
+[RequireJS](http://requirejs.org/), or [webpack](https://webpack.github.io/) to use them on the web.
 
 This package depends directly on Velocity, as well as [lodash](https://lodash.com/) for a handful
 of utility functions (which are required individually to try and keep bundle size down).
