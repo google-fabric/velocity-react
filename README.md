@@ -6,6 +6,8 @@
 ## Running the demo
 
 ```
+$ git clone https://github.com/twitter-fabric/velocity-react.git
+$ cd velocity-react
 $ npm install
 $ npm run demo
 ```
