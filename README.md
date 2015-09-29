@@ -133,7 +133,7 @@ You will need to manually register the UI Pack with the global Velocity in your 
   require('velocity-animate/velocity.ui');
 ```
 
-See: (http://julian.com/research/velocity/#uiPack)
+See: http://julian.com/research/velocity/#uiPack
 
 ## Bugs
 Please report any bugs to: <https://github.com/twitter-fabric/velocity-react/issues>
