@@ -140,7 +140,7 @@ also can take advantage of `stagger` and `reverse` properties on the `VelocityCo
 
 You will need to manually register the UI Pack with the global Velocity in your application with:
 ```JS
-  require('velocity');
+  require('velocity-animate');
   require('velocity-animate/velocity.ui');
 ```
 
