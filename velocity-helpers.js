@@ -3,7 +3,7 @@
 var _ = {
   isObject: require('lodash/lang/isObject'),
 };
-var Velocity = require('velocity-animate');
+var Velocity = require('./lib/velocity-animate-shim');
 
 var effectCounter = 0;
 

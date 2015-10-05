@@ -40,7 +40,7 @@ var _ = {
   pluck: require('lodash/collection/pluck'),
 };
 var React = require('react/addons');
-var Velocity = require('velocity-animate');
+var Velocity = require('./lib/velocity-animate-shim');
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
@@ -110,7 +110,7 @@ var VelocityTransitionGroup = React.createClass({
 
     // Without our custom childFactory, we just get a default TransitionGroup that doesn't do
     // anything special at all.
-    if (!this.constructor.disabledForTest) {
+    if (!this.constructor.disabledForTest && !Velocity.velocityReactServerShim) {
       transitionGroupProps.childFactory = this._wrapChild;
     }
 
