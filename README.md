@@ -6,6 +6,8 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
+**Latest version:** 1.0.1 shims out Velocity to be compatible with server-side rendering
+
 ## Running the demo
 
 ```
@@ -34,8 +36,8 @@ utilities, are distributed as ES5-compatible JavaScript files with [CommonJS](ht
 This package depends directly on Velocity, as well as [lodash](https://lodash.com/) for a handful
 of utility functions (which are required individually to try and keep bundle size down).
 
-It is assumed that your application already depends on React. The `VelocityTransitionGroup`
-component particularly requires the React addons at version 0.13 or higher.
+It is assumed that your application already depends on React 0.13. Support for React 0.14 
+release candidates is coming soon.
 
 ## Usage
 
@@ -146,8 +148,20 @@ You will need to manually register the UI Pack with the global Velocity in your 
 
 See: http://julian.com/research/velocity/#uiPack
 
+### Server-side rendering
+
+The `VelocityComponent` and `VelocityTransitionGroup` components are (as of v1.0.1) not
+incompatible with rendering on the server. At this stage, the components will just no-op
+and let the children render naturally. If your initial animation end states match
+natural rendering anyway this will be exactly what you want. Otherwise you may notice a
+flash when the JS is applied and the initial animations are resolved.
+
 ## Bugs
 Please report any bugs to: <https://github.com/twitter-fabric/velocity-react/issues>
+
+**We welcome contributions!** Note that when testing local changes against local projects you’ll
+need to avoid `npm link` since it typically will cause duplicate instances of `React` in the client.
+(You’ll often see this manifest as `firstChild undefined` errors.)
 
 ## Acknowledgments
 Thanks to Julian Shapiro and Ken Wheeler for creating and maintaining Velocity, respectively,
