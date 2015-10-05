@@ -39,7 +39,12 @@ var _ = {
   omit: require('lodash/object/omit'),
 };
 var React = require('react');
-var Velocity = require('velocity-animate');
+var Velocity;
+if (typeof window !== 'undefined') {
+  Velocity = require('velocity-animate');
+} else {
+  Velocity = function stubbedVelocity() {};
+}
 
 var VelocityComponent = React.createClass({
   displayName: 'VelocityComponent',
