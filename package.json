@@ -1,6 +1,6 @@
 {
   "name": "velocity-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React components to wrap Velocity animations",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "velocity-animate": "^1.2.3"
   },
   "peerDependencies": {
-    "react": ">=0.13.0"
+    "react": "^0.13.0"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",
