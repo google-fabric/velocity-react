@@ -3,7 +3,12 @@
 var _ = {
   isObject: require('lodash/lang/isObject'),
 };
-var Velocity = require('velocity-animate');
+var Velocity;
+if (typeof window !== 'undefined') {
+  Velocity = require('velocity-animate');
+} else {
+  Velocity = function stubbedVelocity() {};
+}
 
 var effectCounter = 0;
 

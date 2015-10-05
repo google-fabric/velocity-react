@@ -40,7 +40,12 @@ var _ = {
   pluck: require('lodash/collection/pluck'),
 };
 var React = require('react/addons');
-var Velocity = require('velocity-animate');
+var Velocity;
+if (typeof window !== 'undefined') {
+  Velocity = require('velocity-animate');
+} else {
+  Velocity = function stubbedVelocity() {};
+}
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
@@ -55,15 +60,21 @@ var VelocityTransitionGroupChild = React.createClass({
   },
 
   componentWillAppear: function (doneFn) {
-    this.props.willAppearFunc(React.findDOMNode(this), doneFn);
+    if (typeof window !== 'undefined') {
+      this.props.willAppearFunc(React.findDOMNode(this), doneFn);
+    }
   },
 
   componentWillEnter: function (doneFn) {
-    this.props.willEnterFunc(React.findDOMNode(this), doneFn);
+    if (typeof window !== 'undefined') {
+      this.props.willEnterFunc(React.findDOMNode(this), doneFn);
+    }
   },
 
   componentWillLeave: function (doneFn) {
-    this.props.willLeaveFunc(React.findDOMNode(this), doneFn);
+    if (typeof window !== 'undefined') {
+      this.props.willLeaveFunc(React.findDOMNode(this), doneFn);
+    }
   },
 
   render: function () {
