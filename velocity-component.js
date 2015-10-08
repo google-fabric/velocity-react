@@ -39,6 +39,7 @@ var _ = {
   omit: require('lodash/object/omit'),
 };
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Velocity = require('./lib/velocity-animate-shim');
 
 var VelocityComponent = React.createClass({
@@ -122,7 +123,7 @@ var VelocityComponent = React.createClass({
   // because of difficulty in tracking what animations are currently being animated, due to both
   // chained animations and the need to be able to "stop" an animation before it begins.)
   _getDOMTarget: function () {
-    var node = React.findDOMNode(this);
+    var node = ReactDOM.findDOMNode(this);
 
     if (this.props.targetQuerySelector === 'children') {
       return node.children;

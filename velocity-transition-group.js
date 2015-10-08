@@ -39,7 +39,9 @@ var _ = {
   omit: require('lodash/object/omit'),
   pluck: require('lodash/collection/pluck'),
 };
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var ReactTransitionGroup = require('react-addons-transition-group');
 var Velocity = require('./lib/velocity-animate-shim');
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
@@ -55,15 +57,15 @@ var VelocityTransitionGroupChild = React.createClass({
   },
 
   componentWillAppear: function (doneFn) {
-    this.props.willAppearFunc(React.findDOMNode(this), doneFn);
+    this.props.willAppearFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
   componentWillEnter: function (doneFn) {
-    this.props.willEnterFunc(React.findDOMNode(this), doneFn);
+    this.props.willEnterFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
   componentWillLeave: function (doneFn) {
-    this.props.willLeaveFunc(React.findDOMNode(this), doneFn);
+    this.props.willLeaveFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
   render: function () {
@@ -114,7 +116,7 @@ var VelocityTransitionGroup = React.createClass({
       transitionGroupProps.childFactory = this._wrapChild;
     }
 
-    return React.createElement(React.addons.TransitionGroup, transitionGroupProps, this.props.children);
+    return React.createElement(ReactTransitionGroup, transitionGroupProps, this.props.children);
   },
 
   childWillAppear: function (node, doneFn) {
