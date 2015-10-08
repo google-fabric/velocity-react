@@ -6,7 +6,7 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
-**Latest version:** 1.0.1 shims out Velocity to be compatible with server-side rendering
+**Latest version:** 1.1.0 is updated to require React 0.14
 
 ## Running the demo
 
@@ -36,8 +36,8 @@ utilities, are distributed as ES5-compatible JavaScript files with [CommonJS](ht
 This package depends directly on Velocity, as well as [lodash](https://lodash.com/) for a handful
 of utility functions (which are required individually to try and keep bundle size down).
 
-It is assumed that your application already depends on React 0.13. Support for React 0.14 
-release candidates is coming soon.
+It is assumed that your application already depends on `react` and `react-dom` at v0.14. If you're
+still at React 0.13, use v1.0.1 of this package. Other than dependencies, it is the same as v1.1.0.
 
 ## Usage
 
@@ -145,6 +145,11 @@ You will need to manually register the UI Pack with the global Velocity in your 
   require('velocity-animate');
   require('velocity-animate/velocity.ui');
 ```
+
+If, even with the above statements, you see errors like `Velocity: First argument
+(transition.shrinkIn) was not a property map, a known action, or a registered redirect. Aborting.`
+it is likely that there are 2 copies of `velocity-animate` in your `node_modules`. Use `npm dedupe`
+to collapse them down to one.
 
 See: http://julian.com/research/velocity/#uiPack
 
