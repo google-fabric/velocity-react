@@ -52,17 +52,6 @@ var TriggerBox = React.createClass({
   },
 
   render: function () {
-    var boxStyle = {
-      margin: 10,
-      height: 130,
-      width: 130,
-      padding: '30px 0 0 0',
-      backgroundColor: '#3f83b7',
-      fontWeight: 600,
-      fontSize: 60,
-      textAlign: 'center',
-    };
-
     var animation = 'callout.' + this.state.effect;
 
     return (

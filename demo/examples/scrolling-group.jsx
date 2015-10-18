@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var React = require('react');
 var VelocityTransitionGroup = require('../../velocity-transition-group');
 var velocityHelpers = require('../../velocity-helpers');

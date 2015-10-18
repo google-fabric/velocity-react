@@ -62,6 +62,6 @@ var Box = React.createClass({
       </div>
     );
   },
-})
+});
 
 module.exports = Box;

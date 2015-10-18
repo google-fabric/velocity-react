@@ -8,7 +8,7 @@
 // Properties on this component (such as "style") are applied to the VelocityTransitionGroup
 // component that this delegates to. We set the VelocityTransitionGroup's container to a <div> by
 // default, and provide enter and leave animations, though these could be overridden if it makes
-// sense for your use case. A postion: 'relative' style is also applied by default since the loading
+// sense for your use case. A position: 'relative' style is also applied by default since the loading
 // effect requires position: 'absolute' on the child.
 //
 // This component defines a "duration" property that is used for both the enter and leave animation

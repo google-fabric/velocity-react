@@ -20,7 +20,7 @@ Properties:
  runOnMount: If true, runs the animation even when the component is first mounted.
  targetQuerySelector: By default, this component's single child is animated. If targetQuerySelector
    is provided, it is used to select descendants to apply the animation to. Use with caution, only
-   when you're confident that React's reconcilliation will preserve these nodes during animation.
+   when you're confident that React's reconciliation will preserve these nodes during animation.
    Also note querySelectorAll's silly behavior w.r.t. pruning results when being called on a node.
    A special value of "children" will use the direct children of the node, since there isn't a
    great way to specify that to querySelectorAll.
