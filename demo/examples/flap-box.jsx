@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var React = require('react');
 var VelocityComponent = require('../../velocity-component');
 var velocityHelpers = require('../../velocity-helpers');
@@ -114,7 +113,6 @@ var FlapBox = React.createClass({
 
   renderTop: function () {
     var flipAnimation;
-    var flipDuration;
     var contentsAnimation;
 
     if (this.state.hovering) {
@@ -127,7 +125,7 @@ var FlapBox = React.createClass({
 
     var boxStyle = {
       position: 'absolute',
-    }
+    };
 
     return (
       <VelocityComponent animation={flipAnimation}>
