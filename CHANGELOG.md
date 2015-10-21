@@ -1,3 +1,9 @@
+### v1.1.1 (2015-10-21):
+
+#### Bug fixes
+ * Fix for `VelocityTransitionGroup` not animating when no `leave` prop is set.
+ * Better detection of existing `Velocity` instances (thanks, @arush!).
+
 ### v1.1.0 (2015-10-08):
 
 Updated peerDependencies and requires to React 0.14.

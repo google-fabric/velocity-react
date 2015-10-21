@@ -6,7 +6,8 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
-**Latest version:** 1.1.0 is updated to require React 0.14
+**Latest version:** v1.1.1 fixes a small bug with `VelocityTransitionGroup` when no `leave` is
+provided. *Note: v1.1.0 and later require React 0.14.*
 
 ## Running the demo
 
