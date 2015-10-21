@@ -141,7 +141,7 @@ var VelocityTransitionGroup = React.createClass({
   },
 
   childWillEnter: function (node, doneFn) {
-    if (this._shortCircuitAnimation(doneFn)) return;
+    if (this._shortCircuitAnimation(this.props.enter, doneFn)) return;
 
     // By finishing a "leave" on the element, we put it in the right state to be animated in. Useful
     // if "leave" includes a rotation or something that we'd like to have as our starting point, for
@@ -161,7 +161,7 @@ var VelocityTransitionGroup = React.createClass({
   },
 
   childWillLeave: function (node, doneFn) {
-    if (this._shortCircuitAnimation(doneFn)) return;
+    if (this._shortCircuitAnimation(this.props.leave, doneFn)) return;
 
     this._leaving.push({
       node: node,
@@ -177,8 +177,8 @@ var VelocityTransitionGroup = React.createClass({
   //
   // Returns true if this did short circuit, false if lifecycle methods should continue with
   // their animations.
-  _shortCircuitAnimation: function (doneFn) {
-    if (document.hidden || (this._parseAnimationProp(this.props.leave).animation == null)) {
+  _shortCircuitAnimation: function (animationProp, doneFn) {
+    if (document.hidden || (this._parseAnimationProp(animationProp).animation == null)) {
       if (this.isMounted()) {
         doneFn();
       }
