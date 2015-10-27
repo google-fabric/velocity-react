@@ -37,6 +37,13 @@ utilities, are distributed as ES5-compatible JavaScript files with [CommonJS](ht
 This package depends directly on Velocity, as well as [lodash](https://lodash.com/) for a handful
 of utility functions (which are required individually to try and keep bundle size down).
 
+To use the Velocity UI Pack, which includes a library of transitions and support for the `stagger`,
+`drag`, and `backwards` options, require it along with Velocity at an entry point to your app:
+```JS
+  require('velocity-animate');
+  require('velocity-animate/velocity.ui');
+```
+
 It is assumed that your application already depends on `react` and `react-dom` at v0.14. If you're
 still at React 0.13, use v1.0.1 of this package. Other than dependencies, it is the same as v1.1.0.
 
