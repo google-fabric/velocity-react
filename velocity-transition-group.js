@@ -146,7 +146,9 @@ var VelocityTransitionGroup = React.createClass({
     // By finishing a "leave" on the element, we put it in the right state to be animated in. Useful
     // if "leave" includes a rotation or something that we'd like to have as our starting point, for
     // symmetry.
-    this._finishAnimation(node, this.props.leave);
+    // We use overrideOpts to prevent any "complete" callback from triggering in this case, since
+    // it doesn't make a ton of sense.
+    this._finishAnimation(node, this.props.leave, {complete: undefined});
 
     // We're not going to start the animation for a tick, so set the node's display to none so that
     // it doesn't flash in.
@@ -267,7 +269,7 @@ var VelocityTransitionGroup = React.createClass({
     }
 
     var self = this;
-    var completeFn = function () {
+    var doneFn = function () {
       if (!self.isMounted()) {
         return;
       }
@@ -281,10 +283,22 @@ var VelocityTransitionGroup = React.createClass({
     // animations) so that we can then animate out. Velocity typically makes these transitions
     // very smooth, correctly animating from whatever state the element is currently in.
     if (entering) {
-      completeFn();
-      completeFn = null;
+      doneFn();
+      doneFn = null;
     } else {
       Velocity(nodes, 'stop');
+    }
+
+    var combinedCompleteFn;
+    if (doneFn && opts.complete) {
+      var optsCompleteFn = opts.complete;
+      combinedCompleteFn = function () {
+        doneFn();
+        optsCompleteFn();
+      };
+    } else {
+      // One or the other or neither.
+      combinedCompleteFn = doneFn || opts.complete;
     }
 
     // Bit of a hack. Without this rAF, sometimes an enter animation doesn't start running, or is
@@ -292,16 +306,16 @@ var VelocityTransitionGroup = React.createClass({
     // any _finishAnimation that's happening.
     window.requestAnimationFrame(function () {
       Velocity(nodes, animation, _.extend({}, opts, {
-        complete: completeFn
+        complete: combinedCompleteFn,
       }));
     });
   },
 
-  _finishAnimation: function (node, animationProp) {
+  _finishAnimation: function (node, animationProp, overrideOpts) {
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
     var style = parsedAnimation.style;
-    var opts = parsedAnimation.opts;
+    var opts = _.extend({}, parsedAnimation.opts, overrideOpts);
 
     if (style != null) {
       _.each(style, function (value, key) {
