@@ -9,6 +9,7 @@ Properties
   leave: Animation to run on a child component leaving
   runOnMount: if true, runs the "enter" animation on the elements that exist as children when this
     component is mounted.
+  enterHideStyle/enterShowStyle: see below.
 
 Any additional properties (e.g. "className", "component") will be passed to the internal
 TransitionGroup.
@@ -25,6 +26,13 @@ routines, which may differ from React's.
 Any hash entries beyond "animation" and "style" are passed in an options hash to Velocity. Use this
 for options like "stagger", "reverse", &tc.
 
+By default, this component will immediately hide all entering children with display: 'none', and
+unhide them one tick later with display: ''. This is done so that we can coalesce multiple enters
+into a single animation, and we want to avoid any popping of elements in while they're collected. If
+you prefer a different way of hiding these elements so that e.g. geometry can be immediately
+calculated, use the enterHideStyle and enterShowStyle props to provide alternate style hashes for
+hiding and revealing entering elements.
+
 Statics
   disabledForTest: Set this to true globally to turn off all custom animation logic. Instead, this
     component will behave like a vanilla TransitionGroup.
@@ -35,6 +43,8 @@ Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 var _ = {
   each: require('lodash/collection/each'),
   extend: require('lodash/object/extend'),
+  forEach: require('lodash/collection/forEach'),
+  isEqual: require('lodash/lang/isEqual'),
   keys: require('lodash/object/keys'),
   omit: require('lodash/object/omit'),
   pluck: require('lodash/collection/pluck'),
@@ -85,6 +95,8 @@ var VelocityTransitionGroup = React.createClass({
     enter: React.PropTypes.any,
     leave: React.PropTypes.any,
     children: React.PropTypes.any,
+    enterHideStyle: React.PropTypes.object,
+    enterShowStyle: React.PropTypes.object,
   },
 
   getDefaultProps: function() {
@@ -92,6 +104,12 @@ var VelocityTransitionGroup = React.createClass({
       runOnMount: false,
       enter: null,
       leave: null,
+      enterHideStyle: {
+        display: 'none',
+      },
+      enterShowStyle: {
+        display: '',
+      },
     };
   },
 
@@ -148,9 +166,11 @@ var VelocityTransitionGroup = React.createClass({
     // symmetry.
     this._finishAnimation(node, this.props.leave);
 
-    // We're not going to start the animation for a tick, so set the node's display to none so that
-    // it doesn't flash in.
-    Velocity.CSS.setPropertyValue(node, 'display', 'none');
+    // We're not going to start the animation for a tick, so set the node's display to none (or any
+    // custom "hide" style provided) so that it doesn't flash in.
+    _.forEach(this.props.enterHideStyle, function (val, key) {
+      Velocity.CSS.setPropertyValue(node, key, val);
+    });
 
     this._entering.push({
       node: node,
@@ -250,10 +270,15 @@ var VelocityTransitionGroup = React.createClass({
     // display: none to prevent them from flashing in before the animation starts. We don't do this
     // for the fade/slide animations or any animation that ends in "In," since Velocity will handle
     // it for us.
-    if (entering && !(/^(fade|slide)/.test(animation) || /In$/.test(animation))) {
-      style = _.extend({
-        display: ''
-      }, style);
+    //
+    // If a custom "enterShowStyle" prop is passed, (i.e. not one that just reverses display: none)
+    // we always run it, regardless of the animation, since it's probably doing something around
+    // opacity or positioning that Velocity will not necessarily reset.
+    if (entering) {
+      if (!_.isEqual(this.props.enterShowStyle, {display: ''})
+        || !(/^(fade|slide)/.test(animation) || /In$/.test(animation))) {
+        style = _.extend({}, this.props.enterShowStyle, style);
+      }
     }
 
     // Because Safari can synchronously repaint when CSS "display" is reset, we set styles for all
