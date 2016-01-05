@@ -60,11 +60,17 @@ function registerEffect(suffix, animation) {
     suffix = '';    
   }
 
+  var key = 'VelocityHelper.animation.' + (effectCounter++) + suffix;
+
+  // No-op on the server for now.
+  if (Velocity.velocityReactServerShim) {
+    return key
+  }
+
   if (Velocity.RegisterEffect === undefined) {
     throw "Velocity.RegisterEffect not found. You need to require('velocity-animate/velocity.ui') at a top level for UI Pack.";
   }
 
-  var key = 'VelocityHelper.animation.' + (effectCounter++) + suffix;
   Velocity.RegisterEffect(key, animation);
   return key;
 }
