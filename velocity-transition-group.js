@@ -44,6 +44,13 @@ var ReactDOM = require('react-dom');
 var ReactTransitionGroup = require('react-addons-transition-group');
 var Velocity = require('./lib/velocity-animate-shim');
 
+// Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
+var shimRequestAnimationFrame = 
+  window.requestAnimationFrame || 
+  window.webkitRequestAnimationFrame || 
+  window.mozRequestAnimationFrame || 
+  function(callback) { window.setTimeout(callback, 0) };
+
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
 var VelocityTransitionGroupChild = React.createClass({
@@ -200,7 +207,7 @@ var VelocityTransitionGroup = React.createClass({
 
     // Need rAF to make sure we're in the same event queue as Velocity from here out. Important
     // for avoiding getting wrong interleaving with Velocity callbacks.
-    window.requestAnimationFrame(this._runAnimations);
+    shimRequestAnimationFrame(this._runAnimations);
   },
 
   _runAnimations: function () {
@@ -304,7 +311,7 @@ var VelocityTransitionGroup = React.createClass({
     // Bit of a hack. Without this rAF, sometimes an enter animation doesn't start running, or is
     // stopped before getting anywhere. This should get us on the other side of both completeFn and
     // any _finishAnimation that's happening.
-    window.requestAnimationFrame(function () {
+    shimRequestAnimationFrame(function () {
       Velocity(nodes, animation, _.extend({}, opts, {
         complete: combinedCompleteFn,
       }));
