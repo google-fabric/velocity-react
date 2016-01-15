@@ -163,8 +163,7 @@ See: http://julian.com/research/velocity/#uiPack
 
 ### Server-side rendering
 
-The `VelocityComponent` and `VelocityTransitionGroup` components are (as of v1.0.1) not
-incompatible with rendering on the server. At this stage, the components will just no-op
+The `VelocityComponent` and `VelocityTransitionGroup` components are (as of v1.0.1) compatible with rendering on the server. At this stage, the components will just no-op
 and let the children render naturally. If your initial animation end states match
 natural rendering anyway this will be exactly what you want. Otherwise you may notice a
 flash when the JS is applied and the initial animations are resolved.
