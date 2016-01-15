@@ -46,11 +46,13 @@ var Velocity = require('./lib/velocity-animate-shim');
 
 // Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
 var shimRequestAnimationFrame = 
-  window.requestAnimationFrame || 
-  window.webkitRequestAnimationFrame || 
-  window.mozRequestAnimationFrame || 
-  function(callback) { window.setTimeout(callback, 0) };
-
+  window && (
+    window.requestAnimationFrame || 
+    window.webkitRequestAnimationFrame || 
+    window.mozRequestAnimationFrame || 
+    function(callback) { window.setTimeout(callback, 0) }
+  );
+  
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
 var VelocityTransitionGroupChild = React.createClass({
