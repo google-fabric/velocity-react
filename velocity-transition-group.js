@@ -46,7 +46,7 @@ var Velocity = require('./lib/velocity-animate-shim');
 
 // Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
 var shimRequestAnimationFrame = 
-  window && (
+  (typeof window !== 'undefined') && (
     window.requestAnimationFrame || 
     window.webkitRequestAnimationFrame || 
     window.mozRequestAnimationFrame || 
