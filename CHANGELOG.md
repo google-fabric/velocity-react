@@ -1,3 +1,16 @@
+### v1.1.2 (2016-02-08):
+
+#### Bug fixes
+ * `complete` callbacks for `VelocityTransitionGroup` now fire correctly.
+ * `velocityHelpers`’s `registerEffect` can be called (as a no-op) on the server.
+ * Fallback to `setTimeout` if `requestAnimationFrame` is not defined.
+
+#### Features
+ * `VelocityTransitionGroup` can take `enterHideStyle` and `enterShowStyle` props
+   to customize how entering elements are kept from being shown before their
+   animations start.
+
+
 ### v1.1.1 (2015-10-21):
 
 #### Bug fixes
