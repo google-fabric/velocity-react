@@ -55,14 +55,17 @@ var ReactTransitionGroup = require('react-addons-transition-group');
 var Velocity = require('./lib/velocity-animate-shim');
 
 // Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
-var shimRequestAnimationFrame = 
+var shimRequestAnimationFrame =
   (typeof window !== 'undefined') && (
-    window.requestAnimationFrame || 
-    window.webkitRequestAnimationFrame || 
-    window.mozRequestAnimationFrame || 
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
     function(callback) { window.setTimeout(callback, 0) }
   );
-  
+
+// Fix 'Invalid calling object' error in IE
+shimRequestAnimationFrame = shimRequestAnimationFrame.bind(window);
+
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
 var VelocityTransitionGroupChild = React.createClass({
@@ -151,7 +154,7 @@ var VelocityTransitionGroup = React.createClass({
       this.childWillEnter(node, doneFn);
     } else {
       this._finishAnimation(node, this.props.enter);
-      
+
       // Important to tick over so that any callbacks due to finishing the animation complete first.
       // isMounted check necessary to avoid exception in tests, which can mount and unmount a
       // component before this runs over, as the "doneFn" callback does a ref lookup rather than
@@ -214,7 +217,7 @@ var VelocityTransitionGroup = React.createClass({
         doneFn();
       }
 
-      return true;      
+      return true;
     } else {
       return false;
     }
@@ -295,7 +298,7 @@ var VelocityTransitionGroup = React.createClass({
     // Because Safari can synchronously repaint when CSS "display" is reset, we set styles for all
     // browsers before the rAF tick below that starts the animation. This way you know in all
     // cases that you need to support your static styles being visible on the element before
-    // the animation begins. 
+    // the animation begins.
     if (style != null) {
       _.each(style, function (value, key) {
         Velocity.hook(nodes, key, value);
