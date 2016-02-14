@@ -64,7 +64,7 @@ var shimRequestAnimationFrame =
   );
 
 // Fix 'Invalid calling object' error in IE
-shimRequestAnimationFrame = shimRequestAnimationFrame.bind(window);
+shimRequestAnimationFrame = (typeof window !== 'undefined') &&  shimRequestAnimationFrame.bind(window);
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
