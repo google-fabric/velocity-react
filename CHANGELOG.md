@@ -1,3 +1,9 @@
+### v1.1.3 (2016-02-16):
+
+#### Bug fixes
+ * Fixes “Invalid calling object” in rAF shim for IE. (Thanks, @restlessbit!)
+
+
 ### v1.1.2 (2016-02-08):
 
 #### Bug fixes
