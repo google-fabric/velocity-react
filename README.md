@@ -6,8 +6,8 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
-**Latest version:** v1.1.2 fixes completion callbacks for `VelocityTransitionGroup` and
-adds the ability to use a different hide/show strategy for that component as well.
+**Latest version:** v1.1.3 fixes an “invalid calling object” error in IE. Thanks to
+@restlessbit for the find and fix.
 
 *Note: v1.1.0 and later require React 0.14.*
 
