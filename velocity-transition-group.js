@@ -176,9 +176,9 @@ var VelocityTransitionGroup = React.createClass({
     // By finishing a "leave" on the element, we put it in the right state to be animated in. Useful
     // if "leave" includes a rotation or something that we'd like to have as our starting point, for
     // symmetry.
-    // We use overrideOpts to prevent any "complete" callback from triggering in this case, since
+    // We use overrideOpts to prevent any "begin" or "complete" callback from triggering in this case, since
     // it doesn't make a ton of sense.
-    this._finishAnimation(node, this.props.leave, {complete: undefined});
+    this._finishAnimation(node, this.props.leave, {begin: undefined, complete: undefined});
 
     // We're not going to start the animation for a tick, so set the node's display to none (or any
     // custom "hide" style provided) so that it doesn't flash in.
