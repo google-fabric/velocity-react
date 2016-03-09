@@ -1,3 +1,9 @@
+### v1.1.4 (2016-03-09):
+
+#### Bug fixes
+ * Keeps leave’s "begin" callback from firing on enter. (Thanks, @SethTompkins!)
+
+
 ### v1.1.3 (2016-02-16):
 
 #### Bug fixes

@@ -6,8 +6,8 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
-**Latest version:** v1.1.3 fixes an “invalid calling object” error in IE. Thanks to
-@restlessbit for the find and fix.
+**Latest version:** v1.1.4 fixes callbacks so that "begin" on a leave animation is not called
+when the element enters.
 
 *Note: v1.1.0 and later require React 0.14.*
 
