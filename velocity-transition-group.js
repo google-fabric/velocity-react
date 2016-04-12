@@ -331,7 +331,8 @@ var VelocityTransitionGroup = React.createClass({
       var optsCompleteFn = opts.complete;
       combinedCompleteFn = function () {
         doneFn();
-        optsCompleteFn();
+        // preserve this / args from Velocity so the complete function has context for what completed
+        optsCompleteFn.apply(this, arguments);
       };
     } else {
       // One or the other or neither.
