@@ -6,8 +6,7 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
-**Latest version:** v1.1.4 fixes callbacks so that "begin" on a leave animation is not called
-when the element enters.
+**Latest version:** v1.1.5 includes React 15 in its devDependencies.
 
 *Note: v1.1.0 and later require React 0.14.*
 
@@ -46,7 +45,10 @@ To use the Velocity UI Pack, which includes a library of transitions and support
   require('velocity-animate/velocity.ui');
 ```
 
-It is assumed that your application already depends on `react` and `react-dom` at v0.14. If you're
+**Note**: Depending upon where your version of NPM places dependencies, you may need to explicitly
+require `velocity-animate` in your package.json to be able to require `velocity-animate/velocity.ui`.
+
+It is assumed that your application already depends on `react` and `react-dom` at v15. If you're
 still at React 0.13, use v1.0.1 of this package. Other than dependencies, it is the same as v1.1.0.
 
 ## Usage
@@ -125,6 +127,10 @@ Any additional properties (e.g. `className`, `component`) will be passed to the 
 with an `animation` key that can either be a string itself, or a hash of style attributes to animate
 (this value is passed to Velocity its the first arg).
 
+**Note:** To make it easier to write consistent “enter” animations, the “leave” animation is applied
+to elements before the “enter” animation is run. So, for something like opacity, you can set it at
+0 in “leave” and 1 in “enter,” rather than having to specify that “enter” should start at 0.
+
 If `enter` or `leave` is a hash, it can additionally have a `style` value that is applied the tick
 before the Velocity animation starts. Use this for non-animating properties (like `position`) that
 are prerequisites for correct animation. The style value is applied using Velocity's JS -> CSS
@@ -161,6 +167,8 @@ If, even with the above statements, you see errors like `Velocity: First argumen
 it is likely that there are 2 copies of `velocity-animate` in your `node_modules`. Use `npm dedupe`
 to collapse them down to one.
 
+It might also be necessary to require the `velocity-animate` package explicitly in your package.json.
+
 See: http://julian.com/research/velocity/#uiPack
 
 ### Server-side rendering
@@ -185,6 +193,6 @@ and for working with us to release this library.
 Thanks to Kevin Robinson and Sam Phillips for all of the discussions and code reviews.
 
 ## License
-Copyright 2015 Twitter, Inc.
+Copyright 2015–6 Twitter, Inc.
 
 Licensed under the MIT License: https://opensource.org/licenses/MIT
