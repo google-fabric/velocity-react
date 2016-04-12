@@ -1,3 +1,12 @@
+### v1.1.5 (2016-04-11):
+
+Updates to allow React 15. (Thanks, @StevenLangbroek!)
+
+#### Bug fixes
+ * Passes context into VelocityTransitionGroup animations' “complete” callbacks
+   so that they know what elements finished animating.
+
+
 ### v1.1.4 (2016-03-09):
 
 #### Bug fixes
