@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crashlytics/velocity-react.git"
+    "url": "git+https://github.com/twitter-fabric/velocity-react.git"
   },
   "keywords": [
     "velocity",
@@ -18,9 +18,9 @@
   "author": "Twitter, Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/crashlytics/velocity-react/issues"
+    "url": "https://github.com/twitter-fabric/velocity-react/issues"
   },
-  "homepage": "https://github.com/crashlytics/velocity-react#readme",
+  "homepage": "https://github.com/twitter-fabric/velocity-react#readme",
   "dependencies": {
     "lodash": "^3.10.1",
     "react-addons-transition-group": "^0.14.0 || ^15.0.0",
