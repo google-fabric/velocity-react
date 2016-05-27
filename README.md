@@ -6,6 +6,8 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
+See the [live demo](http://twitter-fabric.github.io/velocity-react/).
+
 **Latest version:** v1.1.5 includes React 15 in its devDependencies.
 
 *Note: v1.1.0 and later require React 0.14.*
