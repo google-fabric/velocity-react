@@ -57,8 +57,8 @@ still at React 0.13, use v1.0.1 of this package. Other than dependencies, it is 
 
 ### `VelocityComponent`
 
-Component to add Velocity animations to one or more children. Wraps a single child without adding
-additional DOM nodes.
+Component to add Velocity animations to a child node or one or more of its descendants. Wraps a single
+child without adding additional DOM nodes.
 
 #### Example
 ```JSX
