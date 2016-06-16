@@ -1,7 +1,7 @@
 # velocity-react
 
 [React](http://facebook.github.io/react/) components for interacting with the
-[Velocity](http://julian.com/research/velocity/) DOM animation library.
+[Velocity](http://julian.com/) DOM animation library.
 
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
@@ -171,7 +171,7 @@ to collapse them down to one.
 
 It might also be necessary to require the `velocity-animate` package explicitly in your package.json.
 
-See: http://julian.com/research/velocity/#uiPack
+See: http://julian.com/#uiPack
 
 ### Server-side rendering
 
