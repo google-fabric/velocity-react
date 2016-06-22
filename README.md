@@ -171,7 +171,7 @@ to collapse them down to one.
 
 It might also be necessary to require the `velocity-animate` package explicitly in your package.json.
 
-See: http://velocityjs.org//#uiPack
+See: http://velocityjs.org/#uiPack
 
 ### Server-side rendering
 
