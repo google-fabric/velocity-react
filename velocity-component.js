@@ -72,7 +72,8 @@ var VelocityComponent = React.createClass({
   },
 
   componentWillUpdate: function (newProps, newState) {
-    if (!_.isEqual(newProps.animation, this.props.animation)) {
+    if (!_.isEqual(newProps.animation, this.props.animation) ||
+      !_.isEqual(newProps.duration, this.props.duration)) {
       this._stopAnimation();
       this._scheduleAnimation();
     }
