@@ -144,6 +144,9 @@ var VelocityComponent = React.createClass({
     Velocity(this._getDOMTarget(), 'stop', true);
   },
 
+  // Velocity keeps extensive caches for all animated elements to minimize layout thrashing.
+  // This can cause a serious memory leak, keeping references to unmounted elements as well
+  // completion handlers and associated react objects. This crudely clears these references.
   _clearVelocityCache: function (target) {
     if (target.length) {
       forEach(target, this._clearVelocityCache)
