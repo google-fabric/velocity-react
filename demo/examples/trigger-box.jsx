@@ -57,7 +57,7 @@ var TriggerBox = React.createClass({
     return (
       <div className="flex-box flex-column flex-1 align-items-center">
         <div>
-          <select rvalue={this.state.effect} onChange={this.whenSelectChanged}>{this.renderEffects()}</select>
+          <select value={this.state.effect} onChange={this.whenSelectChanged}>{this.renderEffects()}</select>
         </div>
         <div className="flex-1">
           {/*
