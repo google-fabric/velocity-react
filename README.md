@@ -144,7 +144,7 @@ for options like `stagger`, `reverse`, *&tc.*
 #### Statics
 
 `disabledForTest`: Set this to true globally to turn off all custom animation logic. Instead, this
-  component will behave like a vanilla TransitionGroup`.
+  component will behave like a vanilla `TransitionGroup`.
 
 ### `velocityHelpers`
 
