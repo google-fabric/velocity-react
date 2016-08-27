@@ -41,13 +41,13 @@ Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 */
 
 var _ = {
-  each: require('lodash/collection/each'),
-  extend: require('lodash/object/extend'),
-  forEach: require('lodash/collection/forEach'),
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
-  pluck: require('lodash/collection/pluck'),
+  each: require('lodash/collection').each,
+  extend: require('lodash/object').extend,
+  forEach: require('lodash/collection').forEach,
+  isEqual: require('lodash/lang').isEqual,
+  keys: require('lodash/object').keys,
+  omit: require('lodash/object').omit,
+  pluck: require('lodash/collection').pluck,
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
