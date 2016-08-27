@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Twitter, Inc. and other contributors
 
 var _ = {
-  isObject: require('lodash/lang/isObject'),
+  isObject: require('lodash/lang').isObject,
 };
 var Velocity = require('./lib/velocity-animate-shim');
 

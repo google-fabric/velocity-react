@@ -34,9 +34,9 @@ Methods:
 */
 
 var _ = {
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
+  isEqual: require('lodash/lang').isEqual,
+  keys: require('lodash/object').keys,
+  omit: require('lodash/object').omit,
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
