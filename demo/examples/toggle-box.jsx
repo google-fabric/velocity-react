@@ -87,7 +87,7 @@ var ToggleBox = React.createClass({
     return (
       <div className="flex-box flex-column flex-1 align-items-center">
         <div>
-          <select rvalue={this.state.effect} onChange={this.whenSelectChanged}>{this.renderEffects()}</select>
+          <select value={this.state.effect} onChange={this.whenSelectChanged}>{this.renderEffects()}</select>
         </div>
         <Box className="flex-1 flex-box flex-column align-items-center" style={{backgroundColor: '#f5f5f5'}} onClick={this.whenToggleClicked} instruction="Click!">
           {/*

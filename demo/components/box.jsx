@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var React = require('react');
 
 require('../css/polyfill.css');
@@ -51,11 +52,14 @@ var Box = React.createClass({
       opacity: 0.4,
     };
 
+    // Pass any props that are not our own on through.
+    var restProps = _.omit(this.props, _.keys(this.constructor.propTypes));
+
     // outer div below absorbs Velocity's display: block behavior, keeping it from overwriting
     // the display: flex
     return (
       <div style={{margin: 10}}>
-        <div {...this.props} className="flex-box flex-column justify-content-center align-items-center user-select-none" style={style}>
+        <div {...restProps} className="flex-box flex-column justify-content-center align-items-center user-select-none" style={style}>
           {this.props.children}
           {this.props.instruction ? <div style={instructionStyle}>{this.props.instruction}</div> : null}
         </div>
