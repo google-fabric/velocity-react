@@ -90,6 +90,11 @@ var VelocityTransitionGroupChild = React.createClass({
     this.props.willLeaveFunc(ReactDOM.findDOMNode(this), doneFn);
   },
 
+  componentWillUnmount: function () {
+    // Clear references from velocity cache.
+    Velocity.Utilities.removeData(ReactDOM.findDOMNode(this), ['velocity', 'fxqueue']);
+  },
+
   render: function () {
     return React.Children.only(this.props.children);
   },

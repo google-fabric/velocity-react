@@ -34,6 +34,7 @@ Methods:
 */
 
 var _ = {
+  forEach: require('lodash/collection/forEach'),
   isEqual: require('lodash/lang/isEqual'),
   keys: require('lodash/object/keys'),
   omit: require('lodash/object/omit'),
@@ -80,6 +81,7 @@ var VelocityComponent = React.createClass({
 
   componentWillUnmount: function () {
     this._stopAnimation();
+    this._clearVelocityCache(this._getDOMTarget());
   },
 
   // It's ok to call this externally! By default the animation will be queued up. Pass stop: true in
@@ -140,6 +142,17 @@ var VelocityComponent = React.createClass({
 
   _stopAnimation: function () {
     Velocity(this._getDOMTarget(), 'stop', true);
+  },
+
+  // Velocity keeps extensive caches for all animated elements to minimize layout thrashing.
+  // This can cause a serious memory leak, keeping references to unmounted elements as well
+  // completion handlers and associated react objects. This crudely clears these references.
+  _clearVelocityCache: function (target) {
+    if (target.length) {
+      forEach(target, this._clearVelocityCache)
+    } else {
+      Velocity.Utilities.removeData(target, ['velocity', 'fxqueue']);
+    }
   },
 
   // This component does not include any DOM footprint of its own, so instead we return our
