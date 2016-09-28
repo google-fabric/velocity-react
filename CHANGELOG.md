@@ -1,3 +1,10 @@
+### v1.1.6 (2016-09-28):
+
+#### Bug fixes
+ * Prevent Velocity memory leaks when not using jQuery (Thanks, @eirikurn!)
+ * Compatibility with SystemJS's "require" parsing (Thanks, @luisherranz!)
+ * Enable Velocity shim even when JSDom is present by testing process.env (Thanks, @Tomyail!)
+
 ### v1.1.5 (2016-04-11):
 
 Updates to allow React 15. (Thanks, @StevenLangbroek!)
