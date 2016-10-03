@@ -1,3 +1,8 @@
+### v1.1.7 (2016-10-03):
+
+#### Bug fixes
+ * Fix for removeData in shim mode (Issue #127)
+
 ### v1.1.6 (2016-09-28):
 
 #### Bug fixes

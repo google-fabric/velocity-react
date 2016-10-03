@@ -8,8 +8,8 @@ details about why and how we built this.
 
 See the [live demo](http://twitter-fabric.github.io/velocity-react/).
 
-**Latest version:** v1.1.6 includes a handful of compatibility fixes, and a big fix for memory leaks
-when not using jQuery.
+**Latest version:** v1.1.7 includes a handful of compatibility fixes, and a big fix for memory leaks
+when not using jQuery, and a server-side fix from 1.1.6.
 
 *Note: v1.1.0 and later require React 0.14.*
 
