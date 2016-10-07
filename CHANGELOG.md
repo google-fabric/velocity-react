@@ -1,3 +1,8 @@
+### v1.1.8 (2016-10-07):
+
+#### Bug fixes
+ * Fix for jsdom check in IE (Thanks, @stephenleicht!)
+
 ### v1.1.7 (2016-10-03):
 
 #### Bug fixes
