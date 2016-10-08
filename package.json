@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/twitter-fabric/velocity-react#readme",
   "dependencies": {
-    "lodash": "^3.10.1",
+    "lodash": "^3.10.1 || ^4.10.0",
     "react-addons-transition-group": "^0.14.0 || ^15.0.0",
     "velocity-animate": "^1.2.3"
   },
