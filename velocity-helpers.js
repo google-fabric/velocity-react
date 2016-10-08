@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Twitter, Inc. and other contributors
 
 var _ = {
-  isObject: require('lodash/lang/isObject'),
+  isObject: require('lodash/isObject'),
 };
 var Velocity = require('./lib/velocity-animate-shim');
 
@@ -57,7 +57,7 @@ var effectCounter = 0;
 function registerEffect(suffix, animation) {
   if (_.isObject(suffix)) {
     animation = suffix;
-    suffix = '';    
+    suffix = '';
   }
 
   var key = 'VelocityHelper.animation.' + (effectCounter++) + suffix;
