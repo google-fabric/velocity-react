@@ -1,3 +1,7 @@
+### v1.1.10 (2016-10-17):
+
+Reverts `velocity-animate` bump to v1.3.1, it's apparently not published to npm yet :(
+
 ### v1.1.9 (2016-10-17):
 
 Bump `velocity-animate` to v1.3.1 (fixes https://github.com/julianshapiro/velocity/issues/305)
