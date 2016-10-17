@@ -1,3 +1,7 @@
+### v1.1.9 (2016-10-17):
+
+Bump `velocity-animate` to v1.3.1 (fixes https://github.com/julianshapiro/velocity/issues/305)
+
 ### v1.1.8 (2016-10-07):
 
 #### Bug fixes
