@@ -8,7 +8,7 @@ details about why and how we built this.
 
 See the [live demo](http://twitter-fabric.github.io/velocity-react/).
 
-**Latest version:** v1.1.8 fixes IE compatibility, broken in 1.1.7. (Thanks, @stephenleicht)
+**Latest version:** v1.1.9 bumps `velocity-animate` to 1.3.1 (latest).
 
 *Note: v1.1.0 and later require React 0.14.*
 
