@@ -149,7 +149,7 @@ var VelocityComponent = React.createClass({
   // completion handlers and associated react objects. This crudely clears these references.
   _clearVelocityCache: function (target) {
     if (target.length) {
-      forEach(target, this._clearVelocityCache)
+      _.forEach(target, this._clearVelocityCache)
     } else {
       Velocity.Utilities.removeData(target, ['velocity', 'fxqueue']);
     }
