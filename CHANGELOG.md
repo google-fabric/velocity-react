@@ -1,3 +1,19 @@
+### v1.2.0 (2017-01-12):
+
+This is a minor version bump due to the `velocity-animate` dependency getting a minor version
+bump to 1.4 that may contain timing changes. See `velocity-animate` changes here:
+
+https://github.com/julianshapiro/velocity/compare/1.3.0...1.4.0
+
+Thanks to @matthewjf for helping track this down as an issue with how Velocity before 1.4
+fired `complete` callbacks on multiple elements animating.
+
+#### Bug fixes:
+ * Check for presence of `navigator` before using it to determine if we’re running
+   in a browser. (Thanks, @alampros!)
+ * Fix undefined `forEach` method call when doing recursive cache-cleaning without
+   jQuery. (Thanks, @kennygwang!)
+
 ### v1.1.11 (2016-10-20):
 
 Bump `velocity-animate` to v1.3.1 once more now that it's published to npm!
