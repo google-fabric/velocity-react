@@ -8,7 +8,7 @@ details about why and how we built this.
 
 See the [live demo](http://twitter-fabric.github.io/velocity-react/).
 
-**Latest version:** v1.1.11 bumps `velocity-animate` to 1.3.1
+**Latest version:** v1.2.0 fixes some bugs and updates `velocity-animate` to 1.4.0
 
 *Note: v1.1.0 and later require React 0.14.*
 
