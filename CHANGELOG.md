@@ -1,3 +1,7 @@
+### v1.2.1 (2017-01-19):
+
+This is a minor version bump that updates the version of babel to the latest (v6).
+
 ### v1.2.0 (2017-01-12):
 
 This is a minor version bump due to the `velocity-animate` dependency getting a minor version
