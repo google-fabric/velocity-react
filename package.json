@@ -4,7 +4,8 @@
   "description": "React components to wrap Velocity animations",
   "main": "index.js",
   "scripts": {
-    "demo": "./node_modules/.bin/webpack-dev-server --progress --colors --content-base demo --hot --inline --config demo/webpack.config.js"
+    "demo": "./node_modules/.bin/webpack-dev-server --progress --colors --content-base demo --hot --inline --config demo/webpack.config.js",
+    "build": "./node_modules/.bin/webpack --progress --colors --content-base demo --hot --inline --config demo/webpack.config.js"
   },
   "repository": {
     "type": "git",
