@@ -51,6 +51,7 @@ var VelocityComponent = React.createClass({
     children: React.PropTypes.element.isRequired,
     runOnMount: React.PropTypes.bool,
     targetQuerySelector: React.PropTypes.string,
+    interruptBehavior: React.PropTypes.string,
     // Any additional properties will be sent as options to Velocity
   },
 
@@ -59,6 +60,7 @@ var VelocityComponent = React.createClass({
       animation: null,
       runOnMount: false,
       targetQuerySelector: null,
+      interruptBehavior: 'stop'
     }
   },
 
@@ -74,7 +76,12 @@ var VelocityComponent = React.createClass({
 
   componentWillUpdate: function (newProps, newState) {
     if (!_.isEqual(newProps.animation, this.props.animation)) {
-      this._stopAnimation();
+      if(newProps.interruptBehavior === 'stop') {
+        this._stopAnimation();
+      } else if (newProps.interruptBehavior === 'finish') {
+        this._finishAnimation();
+      }
+
       this._scheduleAnimation();
     }
   },
