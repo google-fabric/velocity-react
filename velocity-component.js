@@ -24,6 +24,10 @@ Properties:
    Also note querySelectorAll's silly behavior w.r.t. pruning results when being called on a node.
    A special value of "children" will use the direct children of the node, since there isn't a
    great way to specify that to querySelectorAll.
+ interruptBehavior: Sets how the previous animation should behave when the "animation" prop is
+   changed before it’s done. Default is "stop", which halts the animation where it is. "finish"
+   will jump the animation to its completed appearance. "queue" will run the new animation after
+   the previous one has finished.
 
 Unrecognized properties are passed as options to Velocity (e.g. "duration", "delay", "loop").
 
@@ -51,6 +55,7 @@ var VelocityComponent = React.createClass({
     children: React.PropTypes.element.isRequired,
     runOnMount: React.PropTypes.bool,
     targetQuerySelector: React.PropTypes.string,
+    interruptBehavior: React.PropTypes.string,
     // Any additional properties will be sent as options to Velocity
   },
 
@@ -59,6 +64,7 @@ var VelocityComponent = React.createClass({
       animation: null,
       runOnMount: false,
       targetQuerySelector: null,
+      interruptBehavior: 'stop',
     }
   },
 
@@ -74,7 +80,12 @@ var VelocityComponent = React.createClass({
 
   componentWillUpdate: function (newProps, newState) {
     if (!_.isEqual(newProps.animation, this.props.animation)) {
-      this._stopAnimation();
+      if (newProps.interruptBehavior === 'stop') {
+        this._stopAnimation();
+      } else if (newProps.interruptBehavior === 'finish') {
+        this._finishAnimation();
+      }
+
       this._scheduleAnimation();
     }
   },
