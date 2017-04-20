@@ -1,6 +1,7 @@
 require('./css/flexbox.css');
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 
 require('velocity-animate');
 require('velocity-animate/velocity.ui');
@@ -11,7 +12,7 @@ var ScrollingGroup = require('./examples/scrolling-group');
 var ToggleBox = require('./examples/toggle-box');
 var TriggerBox = require('./examples/trigger-box');
 
-var Demo = React.createClass({
+var Demo = createReactClass({
   render: function () {
     var boxStyle = {
       backgroundColor: '#efefef',
@@ -40,7 +41,7 @@ var Demo = React.createClass({
   },
 });
 
-var MainComponent = React.createClass({
+var MainComponent = createReactClass({
   render: function () {
     return (
       <div className="flex-box flex-wrap">

@@ -50,6 +50,8 @@ var _ = {
   pluck: require('lodash/collection/pluck'),
 };
 var React = require('react');
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 var ReactDOM = require('react-dom');
 var ReactTransitionGroup = require('react-addons-transition-group');
 var Velocity = require('./lib/velocity-animate-shim');
@@ -68,14 +70,14 @@ shimRequestAnimationFrame = (typeof window !== 'undefined') &&  shimRequestAnima
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
-var VelocityTransitionGroupChild = React.createClass({
+var VelocityTransitionGroupChild = createReactClass({
   displayName: 'VelocityTransitionGroupChild',
 
   propTypes: {
-    children: React.PropTypes.element.isRequired,
-    willAppearFunc: React.PropTypes.func.isRequired,
-    willEnterFunc: React.PropTypes.func.isRequired,
-    willLeaveFunc: React.PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
+    willAppearFunc: PropTypes.func.isRequired,
+    willEnterFunc: PropTypes.func.isRequired,
+    willLeaveFunc: PropTypes.func.isRequired,
   },
 
   componentWillAppear: function (doneFn) {
@@ -100,7 +102,7 @@ var VelocityTransitionGroupChild = React.createClass({
   },
 });
 
-var VelocityTransitionGroup = React.createClass({
+var VelocityTransitionGroup = createReactClass({
   displayName: 'VelocityTransitionGroup',
 
   statics: {
@@ -108,12 +110,12 @@ var VelocityTransitionGroup = React.createClass({
   },
 
   propTypes: {
-    runOnMount: React.PropTypes.bool,
-    enter: React.PropTypes.any,
-    leave: React.PropTypes.any,
-    children: React.PropTypes.any,
-    enterHideStyle: React.PropTypes.object,
-    enterShowStyle: React.PropTypes.object,
+    runOnMount: PropTypes.bool,
+    enter: PropTypes.any,
+    leave: PropTypes.any,
+    children: PropTypes.any,
+    enterHideStyle: PropTypes.object,
+    enterShowStyle: PropTypes.object,
   },
 
   getDefaultProps: function() {
@@ -166,12 +168,7 @@ var VelocityTransitionGroup = React.createClass({
       // closing over the component.
       //
       // Using setTimeout so that doneFn gets called even when the tab is hidden.
-      var self = this;
-      window.setTimeout(function () {
-        if (self.isMounted()) {
-          doneFn();
-        }
-      }, 0);
+      window.setTimeout(doneFn(), 0);
     }
   },
 
@@ -218,9 +215,7 @@ var VelocityTransitionGroup = React.createClass({
   // their animations.
   _shortCircuitAnimation: function (animationProp, doneFn) {
     if (document.hidden || (this._parseAnimationProp(animationProp).animation == null)) {
-      if (this.isMounted()) {
         doneFn();
-      }
 
       return true;
     } else {
@@ -273,10 +268,6 @@ var VelocityTransitionGroup = React.createClass({
   },
 
   _runAnimation: function (entering, queue, animationProp) {
-    if (!this.isMounted() || queue.length === 0) {
-      return;
-    }
-
     var nodes = _.pluck(queue, 'node');
     var doneFns = _.pluck(queue, 'doneFn');
 
@@ -312,10 +303,6 @@ var VelocityTransitionGroup = React.createClass({
 
     var self = this;
     var doneFn = function () {
-      if (!self.isMounted()) {
-        return;
-      }
-
       doneFns.map(function (doneFn) { doneFn(); });
     };
 

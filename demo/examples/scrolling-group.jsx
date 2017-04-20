@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var React = require('react');
+var createReactClass = require('create-react-class');
 var VelocityTransitionGroup = require('../../velocity-transition-group');
 var velocityHelpers = require('../../velocity-helpers');
 
@@ -45,7 +46,7 @@ var Animations = {
   }),
 };
 
-var ScrollingGroup = React.createClass({
+var ScrollingGroup = createReactClass({
   displayName: 'ScrollingGroup',
 
   getInitialState: function () {
