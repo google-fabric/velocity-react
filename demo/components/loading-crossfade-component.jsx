@@ -19,6 +19,7 @@
 // elements end up bleeding the background behind the LoadingCrossfadeComponent through.)
 
 var React = require('react');
+var PropTypes = require('prop-types');
 var createReactClass = require('create-react-class');
 var _ = require('lodash');
 var VelocityTransitionGroup = require('../../velocity-transition-group');
@@ -27,12 +28,12 @@ var LoadingCrossfadeComponent = createReactClass({
   displayName: 'LoadingCrossfadeComponent',
 
   propTypes: {
-    opaque: React.PropTypes.bool,
-    duration: React.PropTypes.number,
+    opaque: PropTypes.bool,
+    duration: PropTypes.number,
     // At most 1 child should be supplied at a time, though the animation does correctly handle
     // elements moving in and out faster than the duration (so you can have 2 leaving elements
     // simultaneously, for example).
-    children: React.PropTypes.element,
+    children: PropTypes.element,
   },
 
   getDefaultProps: function () {

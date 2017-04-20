@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var React = require('react');
+var PropTypes = require('prop-types');
 var createReactClass = require('create-react-class');
 
 require('../css/polyfill.css');
@@ -16,9 +17,9 @@ var Box = createReactClass({
   },
 
   propTypes: {
-    style: React.PropTypes.object,
-    underneath: React.PropTypes.bool,
-    instruction: React.PropTypes.string,
+    style: PropTypes.object,
+    underneath: PropTypes.bool,
+    instruction: PropTypes.string,
   },
 
   getDefaultProps: function () {

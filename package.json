@@ -24,6 +24,7 @@
   "dependencies": {
     "create-react-class": "^15.5.2",
     "lodash": "^3.10.1",
+    "prop-types": "^15.5.8",
     "react-addons-transition-group": "^15.5.2",
     "velocity-animate": "^1.5.0"
   },

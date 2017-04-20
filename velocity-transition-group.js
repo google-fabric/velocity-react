@@ -50,6 +50,7 @@ var _ = {
   pluck: require('lodash/collection/pluck'),
 };
 var React = require('react');
+var PropTypes = require('prop-types');
 var createReactClass = require('create-react-class');
 var ReactDOM = require('react-dom');
 var ReactTransitionGroup = require('react-addons-transition-group');
@@ -73,10 +74,10 @@ var VelocityTransitionGroupChild = createReactClass({
   displayName: 'VelocityTransitionGroupChild',
 
   propTypes: {
-    children: React.PropTypes.element.isRequired,
-    willAppearFunc: React.PropTypes.func.isRequired,
-    willEnterFunc: React.PropTypes.func.isRequired,
-    willLeaveFunc: React.PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
+    willAppearFunc: PropTypes.func.isRequired,
+    willEnterFunc: PropTypes.func.isRequired,
+    willLeaveFunc: PropTypes.func.isRequired,
   },
 
   componentWillAppear: function (doneFn) {
@@ -109,12 +110,12 @@ var VelocityTransitionGroup = createReactClass({
   },
 
   propTypes: {
-    runOnMount: React.PropTypes.bool,
-    enter: React.PropTypes.any,
-    leave: React.PropTypes.any,
-    children: React.PropTypes.any,
-    enterHideStyle: React.PropTypes.object,
-    enterShowStyle: React.PropTypes.object,
+    runOnMount: PropTypes.bool,
+    enter: PropTypes.any,
+    leave: PropTypes.any,
+    children: PropTypes.any,
+    enterHideStyle: PropTypes.object,
+    enterShowStyle: PropTypes.object,
   },
 
   getDefaultProps: function() {

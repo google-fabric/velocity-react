@@ -44,6 +44,7 @@ var _ = {
   omit: require('lodash/object/omit'),
 };
 var React = require('react');
+var PropTypes = require('prop-types');
 var createReactClass = require('create-react-class');
 var ReactDOM = require('react-dom');
 var Velocity = require('./lib/velocity-animate-shim');
@@ -52,11 +53,11 @@ var VelocityComponent = createReactClass({
   displayName: 'VelocityComponent',
 
   propTypes: {
-    animation: React.PropTypes.any,
-    children: React.PropTypes.element.isRequired,
-    runOnMount: React.PropTypes.bool,
-    targetQuerySelector: React.PropTypes.string,
-    interruptBehavior: React.PropTypes.string,
+    animation: PropTypes.any,
+    children: PropTypes.element.isRequired,
+    runOnMount: PropTypes.bool,
+    targetQuerySelector: PropTypes.string,
+    interruptBehavior: PropTypes.string,
     // Any additional properties will be sent as options to Velocity
   },
 
