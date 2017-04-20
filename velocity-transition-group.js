@@ -41,13 +41,13 @@ Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 */
 
 var _ = {
-  each: require('lodash/collection/each'),
-  extend: require('lodash/object/extend'),
-  forEach: require('lodash/collection/forEach'),
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
-  pluck: require('lodash/collection/pluck'),
+  each: require('lodash/each'),
+  extend: require('lodash/extend'),
+  forEach: require('lodash/forEach'),
+  isEqual: require('lodash/isEqual'),
+  keys: require('lodash/keys'),
+  omit: require('lodash/omit'),
+  map: require('lodash/map'),
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -277,8 +277,8 @@ var VelocityTransitionGroup = React.createClass({
       return;
     }
 
-    var nodes = _.pluck(queue, 'node');
-    var doneFns = _.pluck(queue, 'doneFn');
+    var nodes = _.map(queue, 'node');
+    var doneFns = _.map(queue, 'doneFn');
 
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
