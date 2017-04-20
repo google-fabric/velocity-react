@@ -168,12 +168,7 @@ var VelocityTransitionGroup = createReactClass({
       // closing over the component.
       //
       // Using setTimeout so that doneFn gets called even when the tab is hidden.
-      var self = this;
-      window.setTimeout(function () {
-        if (self.isMounted()) {
-          doneFn();
-        }
-      }, 0);
+      window.setTimeout(doneFn(), 0);
     }
   },
 
@@ -220,9 +215,7 @@ var VelocityTransitionGroup = createReactClass({
   // their animations.
   _shortCircuitAnimation: function (animationProp, doneFn) {
     if (document.hidden || (this._parseAnimationProp(animationProp).animation == null)) {
-      if (this.isMounted()) {
         doneFn();
-      }
 
       return true;
     } else {
@@ -275,10 +268,6 @@ var VelocityTransitionGroup = createReactClass({
   },
 
   _runAnimation: function (entering, queue, animationProp) {
-    if (!this.isMounted() || queue.length === 0) {
-      return;
-    }
-
     var nodes = _.pluck(queue, 'node');
     var doneFns = _.pluck(queue, 'doneFn');
 
@@ -314,10 +303,6 @@ var VelocityTransitionGroup = createReactClass({
 
     var self = this;
     var doneFn = function () {
-      if (!self.isMounted()) {
-        return;
-      }
-
       doneFns.map(function (doneFn) { doneFn(); });
     };
 

@@ -105,10 +105,6 @@ var VelocityComponent = createReactClass({
 
     this._shouldRunAnimation = false;
 
-    if (!this.isMounted() || this.props.animation == null) {
-      return;
-    }
-
     if (config.stop) {
       Velocity(this._getDOMTarget(), 'stop', true);
     } else if (config.finish) {
