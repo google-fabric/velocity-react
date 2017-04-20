@@ -1,10 +1,11 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var twemoji = require('twemoji');
 var s = require('underscore.string');
 
 // Component that uses the Twitter twemoji library to turn emoji-rich strings into spans with
 // <img> tags in them (for cross-browser/os compatibility).
-var EmojiSpan = React.createClass({
+var EmojiSpan = createReactClass({
   displayName: 'Emoji',
 
   propTypes: {

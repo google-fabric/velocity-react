@@ -50,6 +50,7 @@ var _ = {
   pluck: require('lodash/collection/pluck'),
 };
 var React = require('react');
+var createReactClass = require('create-react-class');
 var ReactDOM = require('react-dom');
 var ReactTransitionGroup = require('react-addons-transition-group');
 var Velocity = require('./lib/velocity-animate-shim');
@@ -68,7 +69,7 @@ shimRequestAnimationFrame = (typeof window !== 'undefined') &&  shimRequestAnima
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
-var VelocityTransitionGroupChild = React.createClass({
+var VelocityTransitionGroupChild = createReactClass({
   displayName: 'VelocityTransitionGroupChild',
 
   propTypes: {
@@ -100,7 +101,7 @@ var VelocityTransitionGroupChild = React.createClass({
   },
 });
 
-var VelocityTransitionGroup = React.createClass({
+var VelocityTransitionGroup = createReactClass({
   displayName: 'VelocityTransitionGroup',
 
   statics: {

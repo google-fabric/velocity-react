@@ -1,4 +1,5 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var VelocityComponent = require('../../velocity-component');
 var velocityHelpers = require('../../velocity-helpers');
 
@@ -71,7 +72,7 @@ var BlurAnimations = {
   })
 };
 
-var FlapBox = React.createClass({
+var FlapBox = createReactClass({
   displayName: 'FlapBox',
 
   getInitialState: function () {

@@ -1,9 +1,10 @@
 var _ = require('lodash');
 var React = require('react');
+var createReactClass = require('create-react-class');
 
 require('../css/polyfill.css');
 
-var Box = React.createClass({
+var Box = createReactClass({
   displayName: 'Box',
 
   statics: {

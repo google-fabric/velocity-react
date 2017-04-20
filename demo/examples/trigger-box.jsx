@@ -1,4 +1,5 @@
 var React = require('react');
+var createReactClass = require('create-react-class');
 var VelocityComponent = require('../../velocity-component');
 var s = require('underscore.string');
 
@@ -16,7 +17,7 @@ var EFFECTS = [
   'tada',
 ];
 
-var TriggerBox = React.createClass({
+var TriggerBox = createReactClass({
   displayName: 'TriggerBox',
 
   getInitialState: function () {

@@ -19,10 +19,11 @@
 // elements end up bleeding the background behind the LoadingCrossfadeComponent through.)
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 var _ = require('lodash');
 var VelocityTransitionGroup = require('../../velocity-transition-group');
 
-var LoadingCrossfadeComponent = React.createClass({
+var LoadingCrossfadeComponent = createReactClass({
   displayName: 'LoadingCrossfadeComponent',
 
   propTypes: {
