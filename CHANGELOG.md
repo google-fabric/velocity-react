@@ -1,3 +1,9 @@
+### v1.2.2 (2017-04-19):
+
+Adds `interruptBehavior` prop to `VelocityComponent`. (Thanks, @Robinfr!)
+
+Changes to remove warnings in React 15.5 will come shortly in v1.3.
+
 ### v1.2.1 (2017-01-19):
 
 This is a minor version bump that updates the version of babel to the latest (v6).
