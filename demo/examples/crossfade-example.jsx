@@ -13,7 +13,7 @@ require('../css/loading-placeholder.css');
 var LOCATION_COUNT = 4;
 
 var BUILDINGS = ['🏠', '🏡', '🏢', '🏬', '🏭', '🏣', '🏤', '🏥', '🏦', '🏨', '🏩', '💒', '⛪', '🏪', '🏫'];
-var CAPTIALS = ['Montgomery', 'Juneau', 'Phoenix', 'Little Rock', 'Sacramento', 'Denver', 'Hartford', 'Dover',
+var CAPITALS = ['Montgomery', 'Juneau', 'Phoenix', 'Little Rock', 'Sacramento', 'Denver', 'Hartford', 'Dover',
   'Tallahassee', 'Atlanta', 'Honolulu', 'Boise', 'Springfield', 'Indianapolis', 'Des Moines', 'Topeka', 'Frankfort',
   'Baton Rouge', 'Augusta', 'Annapolis', 'Boston', 'Lansing', 'St. Paul', 'Jackson', 'Jefferson City', 'Helena',
   'Lincoln', 'Carson City', 'Concord', 'Trenton', 'Santa Fe', 'Albany', 'Raleigh', 'Bismarck', 'Columbus',
@@ -58,7 +58,7 @@ var CrossfadeExample = React.createClass({
       items: Array.apply(null, Array(LOCATION_COUNT)).map(function () {
         return {
           building: _.sample(BUILDINGS),
-          city: _.sample(CAPTIALS),
+          city: _.sample(CAPITALS),
         };
       }),
     });
