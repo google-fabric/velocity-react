@@ -1,34 +1,29 @@
 var _ = require('lodash');
 var React = require('react');
+var PropTypes = require('prop-types');
 
 require('../css/polyfill.css');
 
-var Box = React.createClass({
-  displayName: 'Box',
+class Box extends React.Component {
+  static COLORS = {
+    frontColor: '#3f83b7',
+    backColor: '#5797c0',
+    underneathColor: '#255175',
+  };
 
-  statics: {
-    COLORS: {
-      frontColor: '#3f83b7',
-      backColor: '#5797c0',
-      underneathColor: '#255175',
-    },
-  },
+  static propTypes = {
+    style: PropTypes.object,
+    underneath: PropTypes.bool,
+    instruction: PropTypes.string,
+  };
 
-  propTypes: {
-    style: React.PropTypes.object,
-    underneath: React.PropTypes.bool,
-    instruction: React.PropTypes.string,
-  },
+  static defaultProps = {
+    style: {},
+    underneath: false,
+    instruction: '',
+  };
 
-  getDefaultProps: function () {
-    return {
-      style: {},
-      underneath: false,
-      instruction: '',
-    };
-  },
-
-  render: function() {
+  render() {
     var style = _.extend({}, {
       height: 130,
       width: 130,
@@ -65,7 +60,7 @@ var Box = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = Box;

@@ -1,5 +1,5 @@
 var React = require('react');
-var VelocityComponent = require('../../velocity-component');
+var VelocityComponent = require('../../src/velocity-component');
 var s = require('underscore.string');
 
 var Box = require('../components/box');
@@ -16,18 +16,14 @@ var EFFECTS = [
   'tada',
 ];
 
-var TriggerBox = React.createClass({
-  displayName: 'TriggerBox',
+class TriggerBox extends React.Component {
+  state = {
+    effect: EFFECTS[0],
+    chain: 'stop',
+    palIndex: 0,
+  };
 
-  getInitialState: function () {
-    return {
-      effect: EFFECTS[0],
-      chain: 'stop',
-      palIndex: 0,
-    };
-  },
-
-  whenClicked: function () {
+  whenClicked = () => {
     this.setState({
       palIndex: (this.state.palIndex + 1) % PALS.length,
     });
@@ -38,20 +34,20 @@ var TriggerBox = React.createClass({
     };
 
     this.refs.velocity.runAnimation(opts);
-  },
+  };
 
-  whenSelectChanged: function (evt) {
+  whenSelectChanged = (evt) => {
     this.setState({
       effect: evt.target.value,
       isIn: true,
     });
-  },
+  };
 
-  whenOptionChanged: function (evt) {
+  whenOptionChanged = (evt) => {
     this.setState({ chain: evt.target.value });
-  },
+  };
 
-  render: function () {
+  render() {
     var animation = 'callout.' + this.state.effect;
 
     return (
@@ -86,13 +82,13 @@ var TriggerBox = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderEffects: function () {
+  renderEffects = () => {
     return EFFECTS.map(function (effect) {
       return (<option key={effect} value={effect}>{s.titleize(s.humanize(effect))}</option>);
     });
-  },
-});
+  };
+}
 
 module.exports = TriggerBox;

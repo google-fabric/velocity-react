@@ -51,7 +51,8 @@ var _ = {
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
-var ReactTransitionGroup = require('react-addons-transition-group');
+var PropTypes = require('prop-types');
+var TransitionGroup = require('react-transition-group/TransitionGroup');
 var Velocity = require('./lib/velocity-animate-shim');
 
 // Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
@@ -64,86 +65,91 @@ var shimRequestAnimationFrame =
   );
 
 // Fix 'Invalid calling object' error in IE
-shimRequestAnimationFrame = (typeof window !== 'undefined') &&  shimRequestAnimationFrame.bind(window);
+shimRequestAnimationFrame = (typeof window !== 'undefined') && shimRequestAnimationFrame.bind(window);
+
+var shimCancelAnimationFrame =
+  (typeof window !== 'undefined') && (
+    window.cancelAnimationFrame ||
+    window.webkitCancelAnimationFrame ||
+    window.mozCancelAnimationFrame ||
+    window.clearTimeout
+  );
+
+shimCancelAnimationFrame = (typeof window !== 'undefined') && shimCancelAnimationFrame.bind(window);
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
-var VelocityTransitionGroupChild = React.createClass({
-  displayName: 'VelocityTransitionGroupChild',
-
-  propTypes: {
-    children: React.PropTypes.element.isRequired,
-    willAppearFunc: React.PropTypes.func.isRequired,
-    willEnterFunc: React.PropTypes.func.isRequired,
-    willLeaveFunc: React.PropTypes.func.isRequired,
-  },
-
-  componentWillAppear: function (doneFn) {
+class VelocityTransitionGroupChild extends React.Component {
+  componentWillAppear(doneFn) {
     this.props.willAppearFunc(ReactDOM.findDOMNode(this), doneFn);
-  },
+  }
 
-  componentWillEnter: function (doneFn) {
+  componentWillEnter(doneFn) {
     this.props.willEnterFunc(ReactDOM.findDOMNode(this), doneFn);
-  },
+  }
 
-  componentWillLeave: function (doneFn) {
+  componentWillLeave(doneFn) {
     this.props.willLeaveFunc(ReactDOM.findDOMNode(this), doneFn);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     // Clear references from velocity cache.
     Velocity.Utilities.removeData(ReactDOM.findDOMNode(this), ['velocity', 'fxqueue']);
-  },
+  }
 
-  render: function () {
+  render() {
     return React.Children.only(this.props.children);
-  },
-});
+  }
+}
 
-var VelocityTransitionGroup = React.createClass({
-  displayName: 'VelocityTransitionGroup',
+VelocityTransitionGroupChild.propTypes = {
+  children: PropTypes.element.isRequired,
+  willAppearFunc: PropTypes.func.isRequired,
+  willEnterFunc: PropTypes.func.isRequired,
+  willLeaveFunc: PropTypes.func.isRequired,
+};
 
-  statics: {
-    disabledForTest: false, // global, mutable, for disabling animations during test
-  },
+class VelocityTransitionGroup extends React.Component {
+  constructor(props) {
+    super(props);
 
-  propTypes: {
-    runOnMount: React.PropTypes.bool,
-    enter: React.PropTypes.any,
-    leave: React.PropTypes.any,
-    children: React.PropTypes.any,
-    enterHideStyle: React.PropTypes.object,
-    enterShowStyle: React.PropTypes.object,
-  },
-
-  getDefaultProps: function() {
-    return {
-      runOnMount: false,
-      enter: null,
-      leave: null,
-      enterHideStyle: {
-        display: 'none',
-      },
-      enterShowStyle: {
-        display: '',
-      },
-    };
-  },
-
-  componentWillMount: function () {
-    this._scheduled = false;
+    this._scheduledAnimationFrame = null;
+    this._scheduledAnimationRunFrames = [];
     this._entering = [];
     this._leaving = [];
-  },
 
-  componentWillUnmount: function () {
-    this._entering = [];
-    this._leaving = [];
-  },
+    this._timers = [];
+    this._unmounted = false;
 
-  render: function () {
+    this.childWillAppear = this.childWillAppear.bind(this);
+    this.childWillEnter = this.childWillEnter.bind(this);
+    this.childWillLeave = this.childWillLeave.bind(this);
+
+    this._runAnimations = this._runAnimations.bind(this);
+    this._wrapChild = this._wrapChild.bind(this);
+  }
+
+  componentWillUnmount() {
+    if (this._scheduledAnimationFrame) {
+      shimCancelAnimationFrame(this._scheduledAnimationFrame);
+    }
+
+    _.forEach(this._timers, function(timer) {
+      clearTimeout(timer);
+    });
+
+    _.forEach(this._scheduledAnimationRunFrames, function(frame) {
+      shimCancelAnimationFrame(timer);
+    });
+
+    // We don't cancel all the in-process animations, so we use this to know if the component
+    // is gone when an animation is over.
+    this._unmounted = true;
+  }
+
+  render() {
     // Pass any props that are not our own on into the TransitionGroup delegate.
-    var transitionGroupProps = _.omit(this.props, _.keys(this.constructor.propTypes));
+    var transitionGroupProps = _.omit(this.props, _.keys(VelocityTransitionGroup.propTypes));
 
     // Without our custom childFactory, we just get a default TransitionGroup that doesn't do
     // anything special at all.
@@ -151,31 +157,31 @@ var VelocityTransitionGroup = React.createClass({
       transitionGroupProps.childFactory = this._wrapChild;
     }
 
-    return React.createElement(ReactTransitionGroup, transitionGroupProps, this.props.children);
-  },
+    return React.createElement(TransitionGroup, transitionGroupProps, this.props.children);
+  }
 
-  childWillAppear: function (node, doneFn) {
+  childWillAppear(node, doneFn) {
     if (this.props.runOnMount) {
       this.childWillEnter(node, doneFn);
     } else {
       this._finishAnimation(node, this.props.enter);
 
       // Important to tick over so that any callbacks due to finishing the animation complete first.
-      // isMounted check necessary to avoid exception in tests, which can mount and unmount a
-      // component before this runs over, as the "doneFn" callback does a ref lookup rather than
-      // closing over the component.
       //
       // Using setTimeout so that doneFn gets called even when the tab is hidden.
-      var self = this;
-      window.setTimeout(function () {
-        if (self.isMounted()) {
-          doneFn();
+      var t = setTimeout(() => {
+        var idx = this._timers.indexOf(t);
+        if (idx >= 0) {
+          this._timers.splice(idx, 1);
         }
-      }, 0);
-    }
-  },
 
-  childWillEnter: function (node, doneFn) {
+        doneFn();
+      }, 0);
+      this._timers.push(t);
+    }
+  };
+
+  childWillEnter(node, doneFn) {
     if (this._shortCircuitAnimation(this.props.enter, doneFn)) return;
 
     // By finishing a "leave" on the element, we put it in the right state to be animated in. Useful
@@ -197,9 +203,9 @@ var VelocityTransitionGroup = React.createClass({
     });
 
     this._schedule();
-  },
+  };
 
-  childWillLeave: function (node, doneFn) {
+  childWillLeave(node, doneFn) {
     if (this._shortCircuitAnimation(this.props.leave, doneFn)) return;
 
     this._leaving.push({
@@ -208,7 +214,7 @@ var VelocityTransitionGroup = React.createClass({
     });
 
     this._schedule();
-  },
+  };
 
   // document.hidden check is there because animation completion callbacks won't fire (due to
   // chaining off of rAF), which would prevent entering / leaving DOM nodes from being cleaned up
@@ -216,43 +222,40 @@ var VelocityTransitionGroup = React.createClass({
   //
   // Returns true if this did short circuit, false if lifecycle methods should continue with
   // their animations.
-  _shortCircuitAnimation: function (animationProp, doneFn) {
+  _shortCircuitAnimation(animationProp, doneFn) {
     if (document.hidden || (this._parseAnimationProp(animationProp).animation == null)) {
-      if (this.isMounted()) {
-        doneFn();
-      }
+      doneFn();
 
       return true;
     } else {
       return false;
     }
-  },
+  }
 
-  _schedule: function () {
-    if (this._scheduled) {
+  _schedule() {
+    if (this._scheduledAnimationFrame) {
       return;
     }
 
-    this._scheduled = true;
-
     // Need rAF to make sure we're in the same event queue as Velocity from here out. Important
     // for avoiding getting wrong interleaving with Velocity callbacks.
-    shimRequestAnimationFrame(this._runAnimations);
-  },
+    this._scheduledAnimationFrame = shimRequestAnimationFrame(this._runAnimations);
+  }
 
-  _runAnimations: function () {
-    this._scheduled = false;
+  // arrow function because this is used as an rAF callback
+  _runAnimations() {
+    this._scheduledAnimationFrame = null;
 
     this._runAnimation(true, this._entering, this.props.enter);
     this._runAnimation(false, this._leaving, this.props.leave);
 
     this._entering = [];
     this._leaving = [];
-  },
+  }
 
   // Used to parse out the 'enter' and 'leave' properties. Handles cases where they are omitted
   // as well as when they are just strings and not hashes of animation and options.
-  _parseAnimationProp: function (animationProp) {
+  _parseAnimationProp(animationProp) {
     var animation, opts, style;
 
     if (typeof animationProp === 'string') {
@@ -270,10 +273,10 @@ var VelocityTransitionGroup = React.createClass({
       style: style,
       opts: opts,
     };
-  },
+  }
 
-  _runAnimation: function (entering, queue, animationProp) {
-    if (!this.isMounted() || queue.length === 0) {
+  _runAnimation(entering, queue, animationProp) {
+    if (queue.length === 0) {
       return;
     }
 
@@ -310,9 +313,9 @@ var VelocityTransitionGroup = React.createClass({
       });
     }
 
-    var self = this;
-    var doneFn = function () {
-      if (!self.isMounted()) {
+    var doneFn = () => {
+      // calling doneFns after the parent has unmounted leads to errors
+      if (this._unmounted) {
         return;
       }
 
@@ -347,14 +350,21 @@ var VelocityTransitionGroup = React.createClass({
     // Bit of a hack. Without this rAF, sometimes an enter animation doesn't start running, or is
     // stopped before getting anywhere. This should get us on the other side of both completeFn and
     // any _finishAnimation that's happening.
-    shimRequestAnimationFrame(function () {
+    var t = shimRequestAnimationFrame(() => {
+      var idx = this._scheduledAnimationRunFrames.indexOf(t);
+      if (idx >= 0) {
+        this._scheduledAnimationRunFrames.splice(idx, 1);
+      }
+
       Velocity(nodes, animation, _.extend({}, opts, {
         complete: combinedCompleteFn,
       }));
     });
-  },
 
-  _finishAnimation: function (node, animationProp, overrideOpts) {
+    this._scheduledAnimationRunFrames.push(t);
+  }
+
+  _finishAnimation(node, animationProp, overrideOpts) {
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
     var style = parsedAnimation.style;
@@ -373,15 +383,38 @@ var VelocityTransitionGroup = React.createClass({
       Velocity(node, animation, opts);
       Velocity(node, 'finishAll', true);
     }
-  },
+  }
 
-  _wrapChild: function (child) {
+  _wrapChild(child) {
     return React.createElement(VelocityTransitionGroupChild, {
       willAppearFunc: this.childWillAppear,
       willEnterFunc: this.childWillEnter,
       willLeaveFunc: this.childWillLeave,
     }, child);
+  }
+}
+
+VelocityTransitionGroup.disabledForTest = false; // global, mutable, for disabling animations during test
+
+VelocityTransitionGroup.propTypes = {
+  runOnMount: PropTypes.bool,
+  enter: PropTypes.any,
+  leave: PropTypes.any,
+  children: PropTypes.any,
+  enterHideStyle: PropTypes.object,
+  enterShowStyle: PropTypes.object,
+}
+
+VelocityTransitionGroup.defaultProps = {
+  runOnMount: false,
+  enter: null,
+  leave: null,
+  enterHideStyle: {
+    display: 'none',
   },
-});
+  enterShowStyle: {
+    display: '',
+  },
+};
 
 module.exports = VelocityTransitionGroup;

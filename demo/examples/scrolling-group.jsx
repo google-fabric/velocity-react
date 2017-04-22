@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var React = require('react');
-var VelocityTransitionGroup = require('../../velocity-transition-group');
-var velocityHelpers = require('../../velocity-helpers');
+var VelocityTransitionGroup = require('../../src/velocity-transition-group');
+var velocityHelpers = require('../../src/velocity-helpers');
 
 var Box = require('../components/box');
 var EmojiSpan = require('../components/emoji-span');
@@ -45,34 +45,30 @@ var Animations = {
   }),
 };
 
-var ScrollingGroup = React.createClass({
-  displayName: 'ScrollingGroup',
+class ScrollingGroup extends React.Component {
+  state = {
+    itemCount: 0,
+    items: [],
+    duration: 500,
+  };
 
-  getInitialState: function () {
-    return {
-      itemCount: 0,
-      items: [],
-      duration: 500,
-    };
-  },
-
-  componentWillMount: function () {
+  componentWillMount() {
     this.whenAddButtonClicked();
-  },
+  }
 
-  whenAddButtonClicked: function () {
+  whenAddButtonClicked = () => {
     this.addRows(1);
-  },
+  };
 
-  whenAdd5ButtonClicked: function () {
+  whenAdd5ButtonClicked = () => {
     this.addRows(5);
-  },
+  };
 
-  whenOptionClicked: function (event) {
+  whenOptionClicked = (event) => {
     this.setState({ duration: parseInt(event.target.value) });
-  },
+  };
 
-  addRows: function (count) {
+  addRows = (count) => {
     var items = this.state.items;
 
     for (var i = 0; i < count; ++i) {
@@ -88,9 +84,9 @@ var ScrollingGroup = React.createClass({
       items: items.slice(0, 6),
       itemCount: this.state.itemCount + count,
     });
-  },
+  };
 
-  render: function () {
+  render() {
     var rows = this.state.items.map(function (item, i, arr) {
       var itemStyle = {
         width: 150,
@@ -148,7 +144,7 @@ var ScrollingGroup = React.createClass({
         </form>
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = ScrollingGroup;

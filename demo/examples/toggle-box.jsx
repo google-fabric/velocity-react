@@ -1,5 +1,6 @@
 var React = require('react');
-var VelocityComponent = require('../../velocity-component');
+var createReactClass = require('create-react-class');
+var VelocityComponent = require('../../src/velocity-component');
 var tweenState = require('react-tween-state');
 var s = require('underscore.string');
 
@@ -34,7 +35,7 @@ var EFFECTS = [
   'perspectiveRight',
 ];
 
-var ToggleBox = React.createClass({
+var ToggleBox = createReactClass({
   displayName: 'ToggleBox',
 
   mixins: [ tweenState.Mixin ],
