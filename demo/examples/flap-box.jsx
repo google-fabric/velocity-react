@@ -1,6 +1,6 @@
 var React = require('react');
-var VelocityComponent = require('../../velocity-component');
-var velocityHelpers = require('../../velocity-helpers');
+var VelocityComponent = require('../../src/velocity-component');
+var velocityHelpers = require('../../src/velocity-helpers');
 
 var Box = require('../components/box');
 var EmojiSpan = require('../components/emoji-span');
@@ -71,24 +71,20 @@ var BlurAnimations = {
   })
 };
 
-var FlapBox = React.createClass({
-  displayName: 'FlapBox',
+class FlapBox extends React.Component {
+  state = {
+    hovering: false,
+  };
 
-  getInitialState: function () {
-    return {
-      hovering: false,
-    };
-  },
-
-  whenMouseEntered: function () {
+  whenMouseEntered = () => {
     this.setState({ hovering: true });
-  },
+  };
 
-  whenMouseLeft: function () {
+  whenMouseLeft = () => {
     this.setState({ hovering: false });
-  },
+  };
 
-  render: function () {
+  render() {
     var containerStyle = {
       // Neded since the "top" is absolutely positioned
       position: 'relative',
@@ -109,9 +105,9 @@ var FlapBox = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderTop: function () {
+  renderTop = () => {
     var flipAnimation;
     var contentsAnimation;
 
@@ -136,11 +132,11 @@ var FlapBox = React.createClass({
         </Box>
       </VelocityComponent>
     );
-  },
+  };
 
-  renderUnderneath: function() {
+  renderUnderneath = () => {
     return (<Box underneath={true}><EmojiSpan size={72}>🐵</EmojiSpan></Box>);
-  },
-});
+  };
+}
 
 module.exports = FlapBox;

@@ -11,8 +11,8 @@ var ScrollingGroup = require('./examples/scrolling-group');
 var ToggleBox = require('./examples/toggle-box');
 var TriggerBox = require('./examples/trigger-box');
 
-var Demo = React.createClass({
-  render: function () {
+class Demo extends React.Component {
+  render() {
     var boxStyle = {
       backgroundColor: '#efefef',
       margin: 10,
@@ -37,11 +37,11 @@ var Demo = React.createClass({
         {this.props.children}
       </div>
     );
-  },
-});
+  }
+}
 
-var MainComponent = React.createClass({
-  render: function () {
+class MainComponent extends React.Component {
+  render() {
     return (
       <div className="flex-box flex-wrap">
         <Demo title="Property Change"><ToggleBox/></Demo>
@@ -51,7 +51,7 @@ var MainComponent = React.createClass({
         <Demo title="Crossfade"><CrossfadeExample/></Demo>
       </div>
     );
-  },
-});
+  }
+}
 
 module.exports = MainComponent;

@@ -3,3 +3,10 @@ node_modules
 build
 *~
 npm-debug.log
+yarn.lock
+
+/index.js
+/velocity-component.js
+/velocity-transition-group.js
+/velocity-helpers.js
+/lib

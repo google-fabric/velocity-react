@@ -43,32 +43,24 @@ var _ = {
   keys: require('lodash/object/keys'),
   omit: require('lodash/object/omit'),
 };
+
 var React = require('react');
 var ReactDOM = require('react-dom');
+var PropTypes = require('prop-types');
 var Velocity = require('./lib/velocity-animate-shim');
 
-var VelocityComponent = React.createClass({
-  displayName: 'VelocityComponent',
+class VelocityComponent extends React.Component {
+  constructor(props) {
+    super(props);
 
-  propTypes: {
-    animation: React.PropTypes.any,
-    children: React.PropTypes.element.isRequired,
-    runOnMount: React.PropTypes.bool,
-    targetQuerySelector: React.PropTypes.string,
-    interruptBehavior: React.PropTypes.string,
-    // Any additional properties will be sent as options to Velocity
-  },
+    this._animationTimeout = null;
 
-  getDefaultProps: function () {
-    return {
-      animation: null,
-      runOnMount: false,
-      targetQuerySelector: null,
-      interruptBehavior: 'stop',
-    }
-  },
+    // This public method is kept as self-bound to maintain compatibility with the React.createClass
+    // version of the component.
+    this.runAnimation = this.runAnimation.bind(this);
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     this.runAnimation();
 
     // Jump to the end so that the component has the visual appearance of the animation having
@@ -76,9 +68,9 @@ var VelocityComponent = React.createClass({
     if (this.props.runOnMount !== true) {
       this._finishAnimation();
     }
-  },
+  }
 
-  componentWillUpdate: function (newProps, newState) {
+  componentWillUpdate(newProps, newState) {
     if (!_.isEqual(newProps.animation, this.props.animation)) {
       if (newProps.interruptBehavior === 'stop') {
         this._stopAnimation();
@@ -88,22 +80,26 @@ var VelocityComponent = React.createClass({
 
       this._scheduleAnimation();
     }
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     this._stopAnimation();
     this._clearVelocityCache(this._getDOMTarget());
-  },
+
+    if (this._animationTimeout) {
+      clearTimeout(this._animationTimeout);
+    }
+  }
 
   // It's ok to call this externally! By default the animation will be queued up. Pass stop: true in
   // to stop the current animation before running. Pass finish: true to finish the current animation
   // before running.
-  runAnimation: function (config) {
+  runAnimation(config) {
     config = config || {};
 
-    this._shouldRunAnimation = false;
+    this._animationTimeout = null;
 
-    if (!this.isMounted() || this.props.animation == null) {
+    if (this.props.animation == null) {
       return;
     }
 
@@ -114,28 +110,27 @@ var VelocityComponent = React.createClass({
     }
 
     // Delegate all props except for the ones that we have specified as our own via propTypes.
-    var opts = _.omit(this.props, _.keys(this.constructor.propTypes));
+    var opts = _.omit(this.props, _.keys(VelocityComponent.propTypes));
     Velocity(this._getDOMTarget(), this.props.animation, opts);
-  },
+  }
 
   // We trigger animations on a new tick because of a Velocity bug where adding a
   // multi-step animation from within a complete callback causes the first 2 animations to run
   // simultaneously.
-  _scheduleAnimation: function () {
-    if (this._shouldRunAnimation) {
+  _scheduleAnimation() {
+    if (this._animationTimeout) {
       return;
     }
 
-    this._shouldRunAnimation = true;
-    setTimeout(this.runAnimation, 0);
-  },
+    this._animationTimeout = setTimeout(this.runAnimation, 0);
+  }
 
   // Returns one or more DOM nodes to apply the animation to. This is checked every time we start
   // or stop an animation, which means that if an animation is proceeding but the element is removed
   // from the page, it will run its course rather than ever being stopped. (We go this route
   // because of difficulty in tracking what animations are currently being animated, due to both
   // chained animations and the need to be able to "stop" an animation before it begins.)
-  _getDOMTarget: function () {
+  _getDOMTarget() {
     var node = ReactDOM.findDOMNode(this);
 
     if (this.props.targetQuerySelector === 'children') {
@@ -145,34 +140,50 @@ var VelocityComponent = React.createClass({
     } else {
       return node;
     }
-  },
+  }
 
-  _finishAnimation: function () {
+  _finishAnimation() {
     Velocity(this._getDOMTarget(), 'finishAll', true);
-  },
+  }
 
-  _stopAnimation: function () {
+  _stopAnimation() {
     Velocity(this._getDOMTarget(), 'stop', true);
-  },
+  }
 
   // Velocity keeps extensive caches for all animated elements to minimize layout thrashing.
   // This can cause a serious memory leak, keeping references to unmounted elements as well
   // completion handlers and associated react objects. This crudely clears these references.
-  _clearVelocityCache: function (target) {
+  _clearVelocityCache(target) {
     if (target.length) {
       _.forEach(target, this._clearVelocityCache)
     } else {
       Velocity.Utilities.removeData(target, ['velocity', 'fxqueue']);
     }
-  },
+  }
 
   // This component does not include any DOM footprint of its own, so instead we return our
   // child out of render(). (Render must only return a single element, which restricts us to
   // one child. If you want to animate multiple children, provide your own wrapper element and
   // use the "targetQuerySelector" prop to target its children.)
-  render: function () {
+  render() {
     return this.props.children;
   }
-});
+}
+
+VelocityComponent.propTypes = {
+  animation: PropTypes.any,
+  children: PropTypes.element.isRequired,
+  runOnMount: PropTypes.bool,
+  targetQuerySelector: PropTypes.string,
+  interruptBehavior: PropTypes.string,
+  // Any additional properties will be sent as options to Velocity
+};
+
+VelocityComponent.defaultProps = {
+  animation: null,
+  runOnMount: false,
+  targetQuerySelector: null,
+  interruptBehavior: 'stop',
+};
 
 module.exports = VelocityComponent;
