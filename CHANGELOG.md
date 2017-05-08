@@ -1,3 +1,12 @@
+### v1.3.0 (2017-04-08):
+
+Removes warnings from React 15.5 for React 16.0 compatibility.
+
+Converts to ES2015 classes, adds compilation on distribution.
+
+Minor version bump due to changes around removal of isMounted checks, so there
+may be some regressions.
+
 ### v1.2.2 (2017-04-19):
 
 Adds `interruptBehavior` prop to `VelocityComponent`. (Thanks, @Robinfr!)
