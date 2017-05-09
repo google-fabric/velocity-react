@@ -11,6 +11,7 @@ See the [live demo](http://twitter-fabric.github.io/velocity-react/).
 **Latest version:** v1.3.0 removes warnings when run under React 15.5.
 
 *Note: v1.1.0 and later require React 0.14.*
+*Note: v1.3.1 and later require React 0.14.9 or 15.3.*
 
 ## Running the demo
 
