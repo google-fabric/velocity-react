@@ -1,4 +1,9 @@
-### v1.3.0 (2017-04-08):
+### v1.3.1 (2017-05-09):
+
+Fixes React peer dependencies to specify versions that work with
+`prop-types`. (Thanks, @MichaelDeBoey!)
+
+### v1.3.0 (2017-05-08):
 
 Removes warnings from React 15.5 for React 16.0 compatibility.
 
