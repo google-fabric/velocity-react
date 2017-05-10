@@ -38,7 +38,14 @@ utilities, are distributed as ES5-compatible JavaScript files with [CommonJS](ht
 `require` statements. You will need a dependency tool such as [Browserify](http://browserify.org/),
 [RequireJS](http://requirejs.org/), or [webpack](https://webpack.github.io/) to use them on the web.
 
-This package depends directly on Velocity, as well as [lodash](https://lodash.com/) for a handful
+This package depends directly on Velocity (for convinience), however it is not loaded if you load velocity in your package as well. Also if you want to use UI Pack you will need to require 'velocity' and 'velocity.ui' at a top level in your app:
+
+```js
+   require('velocity');
+   require('velocity-animate/velocity.ui');
+```
+
+This package also depends on [lodash](https://lodash.com/) for a handful
 of utility functions (which are required individually to try and keep bundle size down).
 
 To use the Velocity UI Pack, which includes a library of transitions and support for the `stagger`,
