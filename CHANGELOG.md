@@ -1,3 +1,10 @@
+### v1.3.2 (2017-05-11):
+
+Fix for calling clearTimeout in IE 8. (Thanks, @prchaoz!)
+
+Additional updates to peerDependencies around the new React 15.5-compatible
+libraries. (Thanks, @MichaelDeBoey!)
+
 ### v1.3.1 (2017-05-09):
 
 Fixes React peer dependencies to specify versions that work with
