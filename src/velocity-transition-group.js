@@ -72,7 +72,7 @@ var shimCancelAnimationFrame =
     window.cancelAnimationFrame ||
     window.webkitCancelAnimationFrame ||
     window.mozCancelAnimationFrame ||
-    window.clearTimeout
+    function(timeout) { window.clearTimeout(timeout); }
   );
 
 shimCancelAnimationFrame = (typeof window !== 'undefined') && shimCancelAnimationFrame.bind(window);
