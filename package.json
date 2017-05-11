@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "babel src --out-dir .",
-    "demo": "./node_modules/.bin/webpack-dev-server --progress --colors --content-base demo --hot --inline --config demo/webpack.config.js",
+    "demo": "webpack-dev-server --progress --colors --content-base demo --hot --inline --config demo/webpack.config.js",
     "prepublish": "npm run compile"
   },
   "repository": {
@@ -30,8 +30,8 @@
     "velocity-animate": "^1.4.0"
   },
   "peerDependencies": {
-    "react": "^0.14.9 || ^15.3.0 || ^16.0.0",
-    "react-dom": "^0.14.9 || ^15.3.0 || ^16.0.0"
+    "react": "^15.3.0 || ^16.0.0",
+    "react-dom": "^15.3.0 || ^16.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
