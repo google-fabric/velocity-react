@@ -139,7 +139,7 @@ class VelocityTransitionGroup extends React.Component {
     });
 
     _.forEach(this._scheduledAnimationRunFrames, function(frame) {
-      shimCancelAnimationFrame(timer);
+      shimCancelAnimationFrame(frame);
     });
 
     // We don't cancel all the in-process animations, so we use this to know if the component
