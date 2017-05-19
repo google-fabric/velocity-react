@@ -1,3 +1,7 @@
+### v1.3.3 (2017-05-19):
+
+Fixes incorrect timer clearing. (Thanks, @dmeiz1)
+
 ### v1.3.2 (2017-05-11):
 
 Fix for calling clearTimeout in IE 8. (Thanks, @prchaoz!)
