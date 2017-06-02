@@ -203,6 +203,6 @@ and for working with us to release this library.
 Thanks to Kevin Robinson and Sam Phillips for all of the discussions and code reviews.
 
 ## License
-Copyright 2017 Google
+Copyright 2017 Google Inc.
 
 Licensed under the MIT License: https://opensource.org/licenses/MIT
