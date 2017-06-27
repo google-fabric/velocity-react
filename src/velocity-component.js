@@ -94,19 +94,11 @@ class VelocityComponent extends React.Component {
   // It's ok to call this externally! By default the animation will be queued up. Pass stop: true in
   // to stop the current animation before running. Pass finish: true to finish the current animation
   // before running.
-  runAnimation(config) {
-    config = config || {};
-
+  runAnimation() {
     this._animationTimeout = null;
 
     if (this.props.animation == null) {
       return;
-    }
-
-    if (config.stop) {
-      Velocity(this._getDOMTarget(), 'stop', true);
-    } else if (config.finish) {
-      Velocity(this._getDOMTarget(), 'finishAll', true);
     }
 
     // Delegate all props except for the ones that we have specified as our own via propTypes.
