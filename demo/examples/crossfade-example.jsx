@@ -1,4 +1,6 @@
-var _ = require('lodash');
+var _ = {
+  sample: require('lodash.sample')
+};
 
 var React = require('react');
 var VelocityComponent = require('../../src/velocity-component');

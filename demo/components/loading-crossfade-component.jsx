@@ -20,7 +20,11 @@
 
 var React = require('react');
 var PropTypes = require('prop-types');
-var _ = require('lodash');
+var _ = {
+  defaults: require('lodash.defaults'),
+  omit: require('lodash.omit'),
+  keys: require('lodash.keys'),
+};
 var VelocityTransitionGroup = require('../../src/velocity-transition-group');
 
 class LoadingCrossfadeComponent extends React.Component {
