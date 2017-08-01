@@ -1,4 +1,7 @@
-var _ = require('lodash');
+var _ = {
+  sample: require('lodash.sample'),
+  random: require('lodash.random'),
+};
 var React = require('react');
 var VelocityTransitionGroup = require('../../src/velocity-transition-group');
 var velocityHelpers = require('../../src/velocity-helpers');

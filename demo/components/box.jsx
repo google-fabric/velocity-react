@@ -1,4 +1,8 @@
-var _ = require('lodash');
+var _ = {
+  assign: require('lodash.assign'),
+  omit: require('lodash.omit'),
+  keys: require('lodash.keys'),
+};
 var React = require('react');
 var PropTypes = require('prop-types');
 
@@ -24,7 +28,7 @@ class Box extends React.Component {
   };
 
   render() {
-    var style = _.extend({}, {
+    var style = _.assign({}, {
       height: 130,
       width: 130,
       backgroundColor: this.constructor.COLORS[this.props.underneath ? 'underneathColor' : 'frontColor'],

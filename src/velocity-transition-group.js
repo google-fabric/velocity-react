@@ -41,13 +41,12 @@ Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 */
 
 var _ = {
-  each: require('lodash/collection/each'),
-  extend: require('lodash/object/extend'),
-  forEach: require('lodash/collection/forEach'),
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
-  pluck: require('lodash/collection/pluck'),
+  assign: require('lodash.assign'),
+  forEach: require('lodash.forEach'),
+  isEqual: require('lodash.isEqual'),
+  keys: require('lodash.keys'),
+  map: require('lodash.map'),
+  omit: require('lodash.omit'),
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -280,8 +279,8 @@ class VelocityTransitionGroup extends React.Component {
       return;
     }
 
-    var nodes = _.pluck(queue, 'node');
-    var doneFns = _.pluck(queue, 'doneFn');
+    var nodes = _.map(queue, 'node');
+    var doneFns = _.map(queue, 'doneFn');
 
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
@@ -299,7 +298,7 @@ class VelocityTransitionGroup extends React.Component {
     if (entering) {
       if (!_.isEqual(this.props.enterShowStyle, {display: ''})
         || !(/^(fade|slide)/.test(animation) || /In$/.test(animation))) {
-        style = _.extend({}, this.props.enterShowStyle, style);
+        style = _.assign({}, this.props.enterShowStyle, style);
       }
     }
 
@@ -308,7 +307,7 @@ class VelocityTransitionGroup extends React.Component {
     // cases that you need to support your static styles being visible on the element before
     // the animation begins.
     if (style != null) {
-      _.each(style, function (value, key) {
+      _.forEach(style, function (value, key) {
         Velocity.hook(nodes, key, value);
       });
     }
@@ -356,7 +355,7 @@ class VelocityTransitionGroup extends React.Component {
         this._scheduledAnimationRunFrames.splice(idx, 1);
       }
 
-      Velocity(nodes, animation, _.extend({}, opts, {
+      Velocity(nodes, animation, _.assign({}, opts, {
         complete: combinedCompleteFn,
       }));
     });
@@ -368,10 +367,10 @@ class VelocityTransitionGroup extends React.Component {
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
     var style = parsedAnimation.style;
-    var opts = _.extend({}, parsedAnimation.opts, overrideOpts);
+    var opts = _.assign({}, parsedAnimation.opts, overrideOpts);
 
     if (style != null) {
-      _.each(style, function (value, key) {
+      _.forEach(style, function (value, key) {
         Velocity.hook(node, key, value);
       });
     }
