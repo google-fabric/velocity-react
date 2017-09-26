@@ -23,6 +23,9 @@
     "url": "https://github.com/twitter-fabric/velocity-react/issues"
   },
   "homepage": "https://github.com/twitter-fabric/velocity-react#readme",
+  "lint-staged": {
+    "*.js": "eslint --quiet"
+  },
   "dependencies": {
     "lodash": "^3.10.1",
     "prop-types": "^15.5.8",
@@ -36,6 +39,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.21.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
@@ -43,6 +47,14 @@
     "babel-preset-react": "^6.16.0",
     "create-react-class": "^15.5.2",
     "css-loader": "^0.19.0",
+    "eslint": "^4.7.2",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.4.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.3",
+    "prettier": "^1.7.0",
     "react": "^15.5.0",
     "react-dom": "^15.5.0",
     "react-hot-loader": "^1.2.9",

@@ -39,6 +39,7 @@ Statics
 
 Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 */
+/* eslint react/no-find-dom-node: 0 */
 
 var _ = {
   each: require('lodash/collection/each'),
@@ -57,25 +58,29 @@ var Velocity = require('./lib/velocity-animate-shim');
 
 // Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
 var shimRequestAnimationFrame =
-  (typeof window !== 'undefined') && (
-    window.requestAnimationFrame ||
+  typeof window !== 'undefined' &&
+  (window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
-    function(callback) { window.setTimeout(callback, 0) }
-  );
+    function(callback) {
+      window.setTimeout(callback, 0);
+    });
 
 // Fix 'Invalid calling object' error in IE
-shimRequestAnimationFrame = (typeof window !== 'undefined') && shimRequestAnimationFrame.bind(window);
+shimRequestAnimationFrame =
+  typeof window !== 'undefined' && shimRequestAnimationFrame.bind(window);
 
 var shimCancelAnimationFrame =
-  (typeof window !== 'undefined') && (
-    window.cancelAnimationFrame ||
+  typeof window !== 'undefined' &&
+  (window.cancelAnimationFrame ||
     window.webkitCancelAnimationFrame ||
     window.mozCancelAnimationFrame ||
-    function(timeout) { window.clearTimeout(timeout); }
-  );
+    function(timeout) {
+      window.clearTimeout(timeout);
+    });
 
-shimCancelAnimationFrame = (typeof window !== 'undefined') && shimCancelAnimationFrame.bind(window);
+shimCancelAnimationFrame =
+  typeof window !== 'undefined' && shimCancelAnimationFrame.bind(window);
 
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
@@ -94,7 +99,10 @@ class VelocityTransitionGroupChild extends React.Component {
 
   componentWillUnmount() {
     // Clear references from velocity cache.
-    Velocity.Utilities.removeData(ReactDOM.findDOMNode(this), ['velocity', 'fxqueue']);
+    Velocity.Utilities.removeData(ReactDOM.findDOMNode(this), [
+      'velocity',
+      'fxqueue',
+    ]);
   }
 
   render() {
@@ -149,15 +157,25 @@ class VelocityTransitionGroup extends React.Component {
 
   render() {
     // Pass any props that are not our own on into the TransitionGroup delegate.
-    var transitionGroupProps = _.omit(this.props, _.keys(VelocityTransitionGroup.propTypes));
+    var transitionGroupProps = _.omit(
+      this.props,
+      _.keys(VelocityTransitionGroup.propTypes)
+    );
 
     // Without our custom childFactory, we just get a default TransitionGroup that doesn't do
     // anything special at all.
-    if (!this.constructor.disabledForTest && !Velocity.velocityReactServerShim) {
+    if (
+      !this.constructor.disabledForTest &&
+      !Velocity.velocityReactServerShim
+    ) {
       transitionGroupProps.childFactory = this._wrapChild;
     }
 
-    return React.createElement(TransitionGroup, transitionGroupProps, this.props.children);
+    return React.createElement(
+      TransitionGroup,
+      transitionGroupProps,
+      this.props.children
+    );
   }
 
   childWillAppear(node, doneFn) {
@@ -179,7 +197,7 @@ class VelocityTransitionGroup extends React.Component {
       }, 0);
       this._timers.push(t);
     }
-  };
+  }
 
   childWillEnter(node, doneFn) {
     if (this._shortCircuitAnimation(this.props.enter, doneFn)) return;
@@ -189,11 +207,14 @@ class VelocityTransitionGroup extends React.Component {
     // symmetry.
     // We use overrideOpts to prevent any "begin" or "complete" callback from triggering in this case, since
     // it doesn't make a ton of sense.
-    this._finishAnimation(node, this.props.leave, {begin: undefined, complete: undefined});
+    this._finishAnimation(node, this.props.leave, {
+      begin: undefined,
+      complete: undefined,
+    });
 
     // We're not going to start the animation for a tick, so set the node's display to none (or any
     // custom "hide" style provided) so that it doesn't flash in.
-    _.forEach(this.props.enterHideStyle, function (val, key) {
+    _.forEach(this.props.enterHideStyle, function(val, key) {
       Velocity.CSS.setPropertyValue(node, key, val);
     });
 
@@ -203,7 +224,7 @@ class VelocityTransitionGroup extends React.Component {
     });
 
     this._schedule();
-  };
+  }
 
   childWillLeave(node, doneFn) {
     if (this._shortCircuitAnimation(this.props.leave, doneFn)) return;
@@ -214,7 +235,7 @@ class VelocityTransitionGroup extends React.Component {
     });
 
     this._schedule();
-  };
+  }
 
   // document.hidden check is there because animation completion callbacks won't fire (due to
   // chaining off of rAF), which would prevent entering / leaving DOM nodes from being cleaned up
@@ -223,7 +244,10 @@ class VelocityTransitionGroup extends React.Component {
   // Returns true if this did short circuit, false if lifecycle methods should continue with
   // their animations.
   _shortCircuitAnimation(animationProp, doneFn) {
-    if (document.hidden || (this._parseAnimationProp(animationProp).animation == null)) {
+    if (
+      document.hidden ||
+      this._parseAnimationProp(animationProp).animation == null
+    ) {
       doneFn();
 
       return true;
@@ -239,7 +263,9 @@ class VelocityTransitionGroup extends React.Component {
 
     // Need rAF to make sure we're in the same event queue as Velocity from here out. Important
     // for avoiding getting wrong interleaving with Velocity callbacks.
-    this._scheduledAnimationFrame = shimRequestAnimationFrame(this._runAnimations);
+    this._scheduledAnimationFrame = shimRequestAnimationFrame(
+      this._runAnimations
+    );
   }
 
   // arrow function because this is used as an rAF callback
@@ -263,8 +289,8 @@ class VelocityTransitionGroup extends React.Component {
       style = null;
       opts = {};
     } else {
-      animation = (animationProp != null) ? animationProp.animation : null;
-      style = (animationProp != null) ? animationProp.style : null;
+      animation = animationProp != null ? animationProp.animation : null;
+      style = animationProp != null ? animationProp.style : null;
       opts = _.omit(animationProp, 'animation', 'style');
     }
 
@@ -297,8 +323,10 @@ class VelocityTransitionGroup extends React.Component {
     // we always run it, regardless of the animation, since it's probably doing something around
     // opacity or positioning that Velocity will not necessarily reset.
     if (entering) {
-      if (!_.isEqual(this.props.enterShowStyle, {display: ''})
-        || !(/^(fade|slide)/.test(animation) || /In$/.test(animation))) {
+      if (
+        !_.isEqual(this.props.enterShowStyle, { display: '' }) ||
+        !(/^(fade|slide)/.test(animation) || /In$/.test(animation))
+      ) {
         style = _.extend({}, this.props.enterShowStyle, style);
       }
     }
@@ -308,7 +336,7 @@ class VelocityTransitionGroup extends React.Component {
     // cases that you need to support your static styles being visible on the element before
     // the animation begins.
     if (style != null) {
-      _.each(style, function (value, key) {
+      _.each(style, function(value, key) {
         Velocity.hook(nodes, key, value);
       });
     }
@@ -319,7 +347,9 @@ class VelocityTransitionGroup extends React.Component {
         return;
       }
 
-      doneFns.map(function (doneFn) { doneFn(); });
+      doneFns.map(function(doneFn) {
+        doneFn();
+      });
     };
 
     // For nodes that are entering, we tell the TransitionGroup that we're done with them
@@ -337,7 +367,7 @@ class VelocityTransitionGroup extends React.Component {
     var combinedCompleteFn;
     if (doneFn && opts.complete) {
       var optsCompleteFn = opts.complete;
-      combinedCompleteFn = function () {
+      combinedCompleteFn = function() {
         doneFn();
         // preserve this / args from Velocity so the complete function has context for what completed
         optsCompleteFn.apply(this, arguments);
@@ -356,9 +386,13 @@ class VelocityTransitionGroup extends React.Component {
         this._scheduledAnimationRunFrames.splice(idx, 1);
       }
 
-      Velocity(nodes, animation, _.extend({}, opts, {
-        complete: combinedCompleteFn,
-      }));
+      Velocity(
+        nodes,
+        animation,
+        _.extend({}, opts, {
+          complete: combinedCompleteFn,
+        })
+      );
     });
 
     this._scheduledAnimationRunFrames.push(t);
@@ -371,7 +405,7 @@ class VelocityTransitionGroup extends React.Component {
     var opts = _.extend({}, parsedAnimation.opts, overrideOpts);
 
     if (style != null) {
-      _.each(style, function (value, key) {
+      _.each(style, function(value, key) {
         Velocity.hook(node, key, value);
       });
     }
@@ -386,11 +420,15 @@ class VelocityTransitionGroup extends React.Component {
   }
 
   _wrapChild(child) {
-    return React.createElement(VelocityTransitionGroupChild, {
-      willAppearFunc: this.childWillAppear,
-      willEnterFunc: this.childWillEnter,
-      willLeaveFunc: this.childWillLeave,
-    }, child);
+    return React.createElement(
+      VelocityTransitionGroupChild,
+      {
+        willAppearFunc: this.childWillAppear,
+        willEnterFunc: this.childWillEnter,
+        willLeaveFunc: this.childWillLeave,
+      },
+      child
+    );
   }
 }
 
@@ -403,7 +441,7 @@ VelocityTransitionGroup.propTypes = {
   children: PropTypes.any,
   enterHideStyle: PropTypes.object,
   enterShowStyle: PropTypes.object,
-}
+};
 
 VelocityTransitionGroup.defaultProps = {
   runOnMount: false,
