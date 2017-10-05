@@ -6,7 +6,7 @@
 Read our [announcement blog post](https://fabric.io/blog/introducing-the-velocityreact-library) for
 details about why and how we built this.
 
-See the [live demo](http://twitter-fabric.github.io/velocity-react/).
+See the [live demo](http://google-fabric.github.io/velocity-react/).
 
 **Latest version:** v1.3.3 fixes timer clearing bug on unmount of VelocityTransitionGroup
 
