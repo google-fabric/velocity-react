@@ -39,10 +39,10 @@ Methods:
 /* eslint react/no-find-dom-node: 0 */
 
 var _ = {
-  forEach: require('lodash/collection/forEach'),
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
+  forEach: require('lodash/forEach'),
+  isEqual: require('lodash/isEqual'),
+  keys: require('lodash/keys'),
+  omit: require('lodash/omit'),
 };
 
 var React = require('react');
