@@ -42,13 +42,13 @@ Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 /* eslint react/no-find-dom-node: 0 */
 
 var _ = {
-  each: require('lodash/collection/each'),
-  extend: require('lodash/object/extend'),
-  forEach: require('lodash/collection/forEach'),
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
-  pluck: require('lodash/collection/pluck'),
+  each: require('lodash/each'),
+  extend: require('lodash/extend'),
+  forEach: require('lodash/forEach'),
+  isEqual: require('lodash/isEqual'),
+  keys: require('lodash/keys'),
+  omit: require('lodash/omit'),
+  pluck: require('lodash/map'),
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
