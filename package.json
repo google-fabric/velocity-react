@@ -29,7 +29,7 @@
   "dependencies": {
     "lodash": "^3.10.1",
     "prop-types": "^15.5.8",
-    "react-transition-group": "^1.1.2",
+    "react-transition-group": "^1.2.1",
     "velocity-animate": "^1.4.0"
   },
   "peerDependencies": {
