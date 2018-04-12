@@ -86,26 +86,30 @@ shimCancelAnimationFrame =
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
 class VelocityTransitionGroupChild extends React.Component {
-  transitionPromise = Promise.resolve();
+  lastState = 'appear';
 
   componentWillEnter = (node, appearing) => {
-    this.transitionPromise = new Promise(resolve => {
-      if (appearing) {
-        this.props.willAppearFunc(node, resolve);
-      } else {
-        this.props.willEnterFunc(node, resolve);
-      }
-    });
+    this.lastState = appearing ? 'appear' : 'enter';
   };
 
-  componentWillExit = node => {
-    this.transitionPromise = new Promise(resolve => {
-      this.props.willLeaveFunc(node, resolve);
-    });
+  componentWillExit = () => {
+    this.lastState = 'exit';
   };
 
+  // We trigger our transitions out of endListener because that gives us access to the done callback
+  // we can use to tell the Transition that the animation has completed.
   endListener = (node, done) => {
-    this.transitionPromise.then(done);
+    switch (this.lastState) {
+      case 'appear':
+        this.props.willAppearFunc(node, done);
+        break;
+      case 'enter':
+        this.props.willEnterFunc(node, done);
+        break;
+      case 'exit':
+        this.props.willLeaveFunc(node, done);
+        break;
+    }
   };
 
   componentWillUnmount() {
