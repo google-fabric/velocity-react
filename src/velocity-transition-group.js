@@ -42,18 +42,19 @@ Inspired by https://gist.github.com/tkafka/0d94c6ec94297bb67091
 /* eslint react/no-find-dom-node: 0 */
 
 var _ = {
-  each: require('lodash/collection/each'),
-  extend: require('lodash/object/extend'),
-  forEach: require('lodash/collection/forEach'),
-  isEqual: require('lodash/lang/isEqual'),
-  keys: require('lodash/object/keys'),
-  omit: require('lodash/object/omit'),
-  pluck: require('lodash/collection/pluck'),
+  each: require('lodash/each'),
+  extend: require('lodash/extend'),
+  forEach: require('lodash/forEach'),
+  isEqual: require('lodash/isEqual'),
+  keys: require('lodash/keys'),
+  omit: require('lodash/omit'),
+  map: require('lodash/map'),
 };
 var React = require('react');
 var ReactDOM = require('react-dom');
 var PropTypes = require('prop-types');
 var TransitionGroup = require('react-transition-group/TransitionGroup');
+var Transition = require('react-transition-group/Transition').default;
 var Velocity = require('./lib/velocity-animate-shim');
 
 // Shim requestAnimationFrame for browsers that don't support it, in particular IE 9.
@@ -85,17 +86,27 @@ shimCancelAnimationFrame =
 // Internal wrapper for the transitioned elements. Delegates all child lifecycle events to the
 // parent VelocityTransitionGroup so that it can co-ordinate animating all of the elements at once.
 class VelocityTransitionGroupChild extends React.Component {
-  componentWillAppear(doneFn) {
-    this.props.willAppearFunc(ReactDOM.findDOMNode(this), doneFn);
-  }
+  transitionPromise = Promise.resolve();
 
-  componentWillEnter(doneFn) {
-    this.props.willEnterFunc(ReactDOM.findDOMNode(this), doneFn);
-  }
+  componentWillEnter = (node, appearing) => {
+    this.transitionPromise = new Promise(resolve => {
+      if (appearing) {
+        this.props.willAppearFunc(node, resolve);
+      } else {
+        this.props.willEnterFunc(node, resolve);
+      }
+    });
+  };
 
-  componentWillLeave(doneFn) {
-    this.props.willLeaveFunc(ReactDOM.findDOMNode(this), doneFn);
-  }
+  componentWillExit = node => {
+    this.transitionPromise = new Promise(resolve => {
+      this.props.willLeaveFunc(node, resolve);
+    });
+  };
+
+  endListener = (node, done) => {
+    this.transitionPromise.then(done);
+  };
 
   componentWillUnmount() {
     // Clear references from velocity cache.
@@ -106,7 +117,23 @@ class VelocityTransitionGroupChild extends React.Component {
   }
 
   render() {
-    return React.Children.only(this.props.children);
+    const transitionProps = _.omit(
+      this.props,
+      _.keys(VelocityTransitionGroupChild.propTypes)
+    );
+
+    return React.createElement(
+      Transition,
+      {
+        ...transitionProps,
+        timeout: null,
+        addEndListener: this.endListener,
+        appear: true,
+        onEnter: this.componentWillEnter,
+        onExit: this.componentWillExit,
+      },
+      this.props.children
+    );
   }
 }
 
@@ -162,19 +189,12 @@ class VelocityTransitionGroup extends React.Component {
       _.keys(VelocityTransitionGroup.propTypes)
     );
 
-    // Without our custom childFactory, we just get a default TransitionGroup that doesn't do
-    // anything special at all.
-    if (
-      !this.constructor.disabledForTest &&
-      !Velocity.velocityReactServerShim
-    ) {
-      transitionGroupProps.childFactory = this._wrapChild;
-    }
-
     return React.createElement(
       TransitionGroup,
       transitionGroupProps,
-      this.props.children
+      !this.constructor.disabledForTest && !Velocity.velocityReactServerShim
+        ? React.Children.map(this.props.children, this._wrapChild)
+        : this.props.children
     );
   }
 
@@ -306,8 +326,8 @@ class VelocityTransitionGroup extends React.Component {
       return;
     }
 
-    var nodes = _.pluck(queue, 'node');
-    var doneFns = _.pluck(queue, 'doneFn');
+    var nodes = _.map(queue, 'node');
+    var doneFns = _.map(queue, 'doneFn');
 
     var parsedAnimation = this._parseAnimationProp(animationProp);
     var animation = parsedAnimation.animation;
@@ -423,6 +443,7 @@ class VelocityTransitionGroup extends React.Component {
     return React.createElement(
       VelocityTransitionGroupChild,
       {
+        key: child.key,
         willAppearFunc: this.childWillAppear,
         willEnterFunc: this.childWillEnter,
         willLeaveFunc: this.childWillLeave,

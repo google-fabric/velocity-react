@@ -1,3 +1,16 @@
+### v1.4.0 (2018-04-12):
+
+Dependency upgrades! No new features.
+
+ - Changes our `componentWillUpdate` call to `componentDidUpdate` to eliminate a
+   React 16.3 StrictMode warning
+ - Migration to [react-transition-group](https://github.com/reactjs/react-transition-group) v2
+ - Switches from lodash 3 to lodash 4
+ - Changes demo to use React 16.3
+
+There still are StrictMode warnings due to `react-transition-group` still using
+the older APIs.
+
 ### v1.3.3 (2017-05-19):
 
 Fixes incorrect timer clearing. (Thanks, @dmeiz1)

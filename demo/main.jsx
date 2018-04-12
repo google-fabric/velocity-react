@@ -43,13 +43,25 @@ class Demo extends React.Component {
 class MainComponent extends React.Component {
   render() {
     return (
-      <div className="flex-box flex-wrap">
-        <Demo title="Property Change"><ToggleBox/></Demo>
-        <Demo title="On Demand"><TriggerBox/></Demo>
-        <Demo title="Custom Animation"><FlapBox/></Demo>
-        <Demo title="Custom Transition Group"><ScrollingGroup/></Demo>
-        <Demo title="Crossfade"><CrossfadeExample/></Demo>
-      </div>
+      <React.StrictMode>
+        <div className="flex-box flex-wrap">
+          <Demo title="Property Change">
+            <ToggleBox />
+          </Demo>
+          <Demo title="On Demand">
+            <TriggerBox />
+          </Demo>
+          <Demo title="Custom Animation">
+            <FlapBox />
+          </Demo>
+          <Demo title="Custom Transition Group">
+            <ScrollingGroup />
+          </Demo>
+          <Demo title="Crossfade">
+            <CrossfadeExample />
+          </Demo>
+        </div>
+      </React.StrictMode>
     );
   }
 }
