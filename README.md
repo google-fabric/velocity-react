@@ -8,7 +8,7 @@ details about why and how we built this.
 
 See the [live demo](http://google-fabric.github.io/velocity-react/).
 
-**Latest version:** v1.3.3 fixes timer clearing bug on unmount of VelocityTransitionGroup
+**Latest version:** v1.4.0 Removes some React 16.3 deprecations and warnings
 
 *Note: v1.1.0 and later require React 0.14.x*
 *Note: v1.3.0 and later require React 15.3.x and should work with React 16*
