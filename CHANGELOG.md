@@ -1,3 +1,7 @@
+### v1.4.1 (2018-04-17):
+
+Fixes false children bug #240. (Thanks for the report, @tiffanytangt!)
+
 ### v1.4.0 (2018-04-12):
 
 Dependency upgrades! No new features.
