@@ -444,6 +444,12 @@ class VelocityTransitionGroup extends React.Component {
   }
 
   _wrapChild(child) {
+    // Need to guard against falsey children, which React will sometimes pass
+    // in.
+    if (!child) {
+      return null;
+    }
+
     return React.createElement(
       VelocityTransitionGroupChild,
       {
