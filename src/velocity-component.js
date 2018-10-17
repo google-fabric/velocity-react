@@ -38,19 +38,13 @@ Methods:
 */
 /* eslint react/no-find-dom-node: 0 */
 
-var _ = {
-  forEach: require('lodash/forEach'),
-  isEqual: require('lodash/isEqual'),
-  keys: require('lodash/keys'),
-  omit: require('lodash/omit'),
-};
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import Velocity from './lib/velocity-animate-shim';
+import { forEach, isEqual, keys, omit } from 'lodash';
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var PropTypes = require('prop-types');
-var Velocity = require('./lib/velocity-animate-shim');
-
-class VelocityComponent extends React.Component {
+export default class VelocityComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -72,7 +66,7 @@ class VelocityComponent extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (!_.isEqual(oldProps.animation, this.props.animation)) {
+    if (!isEqual(oldProps.animation, this.props.animation)) {
       if (this.props.interruptBehavior === 'stop') {
         this._stopAnimation();
       } else if (this.props.interruptBehavior === 'finish') {
@@ -111,7 +105,7 @@ class VelocityComponent extends React.Component {
     }
 
     // Delegate all props except for the ones that we have specified as our own via propTypes.
-    var opts = _.omit(this.props, _.keys(VelocityComponent.propTypes));
+    var opts = omit(this.props, keys(VelocityComponent.propTypes));
     Velocity(this._getDOMTarget(), this.props.animation, opts);
   }
 
@@ -156,7 +150,7 @@ class VelocityComponent extends React.Component {
   // completion handlers and associated react objects. This crudely clears these references.
   _clearVelocityCache(target) {
     if (target.length) {
-      _.forEach(target, this._clearVelocityCache);
+      forEach(target, this._clearVelocityCache);
     } else {
       Velocity.Utilities.removeData(target, ['velocity', 'fxqueue']);
     }
@@ -186,5 +180,3 @@ VelocityComponent.defaultProps = {
   targetQuerySelector: null,
   interruptBehavior: 'stop',
 };
-
-module.exports = VelocityComponent;
