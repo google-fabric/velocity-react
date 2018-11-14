@@ -1,3 +1,8 @@
+### v1.4.2 (2018-11-14):
+
+Uses a `<Transition>` element in test/server mode to keep react-dom from warning
+about TransitionGroup’s props placed on HTML children.
+
 ### v1.4.1 (2018-04-17):
 
 Fixes false children bug #240. (Thanks for the report, @tiffanytangt!)

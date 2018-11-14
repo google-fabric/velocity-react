@@ -8,7 +8,7 @@ details about why and how we built this.
 
 See the [live demo](http://google-fabric.github.io/velocity-react/).
 
-**Latest version:** v1.4.1 Fixes a `null` child regression in v1.4.0
+**Latest version:** v1.4.2 Avoids react-dom warnings in test for `Transition` props.
 
 *Note: v1.1.0 and later require React 0.14.x*
 *Note: v1.3.0 and later require React 15.3.x and should work with React 16*
