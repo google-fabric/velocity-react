@@ -1,3 +1,7 @@
+### v1.4.3 (2019-05-09):
+
+Adds `timeout` prop to `Transition` in test to avoid a PropTypes warning.
+
 ### v1.4.2 (2018-11-14):
 
 Uses a `<Transition>` element in test/server mode to keep react-dom from warning
