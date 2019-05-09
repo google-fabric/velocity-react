@@ -198,7 +198,13 @@ class VelocityTransitionGroup extends React.Component {
       transitionGroupProps,
       !this.constructor.disabledForTest && !Velocity.velocityReactServerShim
         ? React.Children.map(this.props.children, this._wrapChild)
-        : this.props.children
+        : React.Children.map(
+            this.props.children,
+            // Wrapping in a no-op Transition to consume the props that
+            // TransitionGroup gives its children. Fixes react-dom warnings
+            // in test for those props appearing on divs and such.
+            child => child && React.createElement(Transition, {}, child)
+          )
     );
   }
 

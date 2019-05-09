@@ -1,6 +1,6 @@
 {
   "name": "velocity-react",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "React components to wrap Velocity animations",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-core": "^6.21.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^8.0.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-class-properties": "^6.24.1",
