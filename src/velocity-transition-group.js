@@ -203,7 +203,8 @@ class VelocityTransitionGroup extends React.Component {
             // Wrapping in a no-op Transition to consume the props that
             // TransitionGroup gives its children. Fixes react-dom warnings
             // in test for those props appearing on divs and such.
-            child => child && React.createElement(Transition, {}, child)
+            child =>
+              child && React.createElement(Transition, { timeout: 0 }, child)
           )
     );
   }
