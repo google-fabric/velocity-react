@@ -12,8 +12,8 @@
 //   require('velocity');
 //   require('velocity-animate/velocity.ui');
 
-module.exports = {
-  VelocityComponent: require('./velocity-component'),
-  VelocityTransitionGroup: require('./velocity-transition-group'),
-  velocityHelpers: require('./velocity-helpers'),
-};
+export { default as VelocityComponent } from './velocity-component';
+export { default as velocityHelpers } from './velocity-helpers';
+export {
+  default as VelocityTransitionGroup,
+} from './velocity-transition-group';

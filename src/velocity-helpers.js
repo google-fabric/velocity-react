@@ -1,9 +1,7 @@
 // Copyright (c) 2015 Twitter, Inc. and other contributors
 
-var _ = {
-  isObject: require('lodash/isObject'),
-};
-var Velocity = require('./lib/velocity-animate-shim');
+import Velocity from './lib/velocity-animate-shim';
+import { isObject } from 'lodash';
 
 var effectCounter = 0;
 
@@ -55,7 +53,7 @@ var effectCounter = 0;
 //   ...
 // <Velocity>
 function registerEffect(suffix, animation) {
-  if (_.isObject(suffix)) {
+  if (isObject(suffix)) {
     animation = suffix;
     suffix = '';
   }
@@ -75,6 +73,6 @@ function registerEffect(suffix, animation) {
   return key;
 }
 
-module.exports = {
+export default {
   registerEffect: registerEffect,
 };
